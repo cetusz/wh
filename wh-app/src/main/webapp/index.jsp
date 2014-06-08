@@ -18,48 +18,51 @@
 	basic : [ {
 		"menuid" : "10",
 		"icon" : "icon-sys",
-		"menuname" : "节目单管理",
+		"menuname" : "公众账号管理",
 		"menus" : [ {
-			"menuid" : "111",
-			"menuname" : "频道管理",
+			"menuid" : "101",
+			"menuname" : "账号列表",
 			"icon" : "icon-nav",
 			"url" : "<%=path%>/manage/channel!tolist.do?ts="+new Date()
-		}, {
-			"menuid" : "112",
-			"menuname" : "爬虫任务管理",
-			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/channel!tochannellist4day.do?ts="+new Date()
-		}, {
-			"menuid" : "112",
-			"menuname" : "搜视网频道配置管理",
-			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/channel!tochannelmapping.do?ts="+new Date()
 		}]
 	} ],
-	partner : [{
+	content : [{
 		"menuid" : "20",
 		"icon" : "icon-sys",
-		"menuname" : "媒资管理",
+		"menuname" : "内容管理",
 		"menus" : [ {
 			"menuid" : "201",
-			"menuname" : "媒资列表",
+			"menuname" : "内容列表",
 			"icon" : "icon-nav",
 			"url" : "<%=path%>/manage/asset!tolist.do?ts="+new Date()
 		}
 ]}],
-	point : [{
-		"menuid" : "21",
+ config : [{
+	"menuid" : "30",
+	"icon" : "icon-sys",
+	"menuname" : "配置管理",
+	"menus" : [ {
+		"menuid" : "301",
+		"menuname" : "配置列表",
+		"icon" : "icon-nav",
+		"url" : "<%=path%>/manage/user_tolist.do"
+	}]
+
+}]
+    ,
+	user : [{
+		"menuid" : "40",
 		"icon" : "icon-sys",
 		"menuname" : "用户管理",
 		"menus" : [ {
-			"menuid" : "211",
-			"menuname" : "用户管理",
+			"menuid" : "401",
+			"menuname" : "用户列表",
 			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/user_tolist.do?ts="+new Date()
+			"url" : "<%=path%>/manage/user_tolist"
 		}]
 
-
 	}]
+    
 };
 
 </script>
@@ -77,18 +80,19 @@
 			</div>
 
     </div>
-	<div data-options="region:'south',border:true" style="height:50px;padding:10px;text-align:center">爬虫管理系统v1.0</div>
+	<div data-options="region:'south',border:true" style="height:50px;padding:10px;text-align:center">微航后台管理系统v1.0</div>
 	  <div region="north" split="true" border="false" style="overflow: hidden; height: 30px;
         background: url(<%=path %>/images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
-        <span style="float:right; padding-right:20px;" class="head"><s:property value="#session.user.userName"/> 你好！ <a href="#" id="editpass" onclick="openPassword()">修改密码</a> <a href="system!logout.do" id="loginOut">安全退出</a></span>
+        <span style="float:right; padding-right:20px;" class="head"><s:property value="#session.user.userName"/> 你好！ <a href="#" id="editpass" onclick="openPassword()">修改密码</a> <a href="../system/logout" id="loginOut">安全退出</a></span>
 
         <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" /> 爬虫管理</span>
 		
 		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
-				<li ><a class="active" name="basic" href="javascript:;" title="节目单管理">节目单管理</a></li>
-				<li ><a name="partner" href="javascript:;" title="节目单管理">媒资管理</a></li>
-				<li><a name="point" href="javascript:;" title="用户管理">用户管理</a></li>
+				<li ><a class="active" name="basic" href="javascript:;">公众账号</a></li>
+				<li ><a name="content" href="javascript:;">文章</a></li>
+				<li ><a name="config" href="javascript:;">配置</a></li>
+				<li><a name="user" href="javascript:;">用户</a></li>
 		</ul>
     </div>
     <div region="south" split="true" >

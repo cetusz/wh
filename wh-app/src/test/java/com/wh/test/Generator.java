@@ -5,20 +5,18 @@ public class Generator {
 	public static void main(String[] args) {
 		String[] cols = {
 				"id",
-				"AccountEdit",
-				"accountId",
-				"chineseName",
-				"intro",
-				"isCrawler",
-				"qrCodeUrl",
-				"cateIds",
-				"version",
-				"bizId" 
+				"userName",
+				"password",
+				"createTime",
+				"lastUpdateTime"
 		};
 		printSql(cols);
 		System.out.println("");
 		System.out.println("+++++++columns+++++++");
 		printcolums(cols);
+		System.out.println("");
+		System.out.println("+++++++param+++++++");
+		printcolumsParam(cols);
 		System.out.println("");
 		System.out.println("+++++++param+++++++");
 		printparamSql(cols);
@@ -51,6 +49,14 @@ public class Generator {
 			  if(index>0)
 				  System.out.print(",  ");
 			  System.out.print(cols[index]);
+		  }
+	}
+	
+	private static void printcolumsParam(String[] cols){
+		 for(int index=0,len = cols.length;index<len;index++){
+			  if(index>0)
+				  System.out.print(",  ");
+			  System.out.print("#{"+cols[index]+"}");
 		  }
 	}
 	
