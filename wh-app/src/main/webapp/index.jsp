@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
- <%@taglib uri="/struts-tags" prefix="s" %>
 <% 
   String path =request.getContextPath();
 	//System.out.println(" ====== " + path);
@@ -84,7 +83,7 @@
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head"><s:property value="#session.user.userName"/> 你好！ <a href="#" id="editpass" onclick="openPassword()">修改密码</a> <a href="system!logout.do" id="loginOut">安全退出</a></span>
 
-        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/images/blocks.gif" width="20" height="20" align="absmiddle" /> 爬虫管理</span>
+        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" /> 爬虫管理</span>
 		
 		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
 				<li ><a class="active" name="basic" href="javascript:;" title="节目单管理">节目单管理</a></li>
@@ -93,12 +92,12 @@
 		</ul>
     </div>
     <div region="south" split="true" >
-        <div class="footer" >爬虫管理v1.0@coship.com.cn</div>
+        <div class="footer" >微航后台管理v1.0</div>
     </div>
 	<div id="mainPanle" region="center" style="background: #eee; overflow-y:hidden">
         <div id="tabs" class="easyui-tabs"  fit="true" border="false" >
 			<div title="欢迎页面" style="padding:20px;overflow:hidden;" id="home">
-				<h2>欢迎使用爬虫管理系统</h2>
+				<h2>微航后台管理系统</h2>
 			</div>
 		</div>
     </div>

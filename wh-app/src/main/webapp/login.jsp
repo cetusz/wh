@@ -16,11 +16,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<link rel="stylesheet" type="text/css" href="<%=path %>/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="<%=path %>/easyui/themes/icon.css">
-	<script type="text/javascript" src="<%=path %>/easyui/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/easyui/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="<%=path %>/resources/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="<%=path %>/resources/easyui/themes/icon.css">
+	<script type="text/javascript" src="<%=path %>/resources/easyui/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/resources/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/resources/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script>
 	 $(function(){
 	      document.onkeydown = function(e){
@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body style="background:#E0ECFF;">
-	<div id="w" class="easyui-window" title="媒资/节目单爬虫管理-登录" style="width:300px;height:200px;top:200px;padding:10px;">
+	<div id="w" class="easyui-window" title="微航后台管理-登录" style="width:300px;height:200px;top:200px;padding:10px;">
 	    <form id="ff" method="post" action="<%=path%>/manage/system!login.do">
 	    	<table align="center">
 	    		<tr>
@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function submitForm(){
 			var userName = $("#userName").val();
 			var pwd =  $("#passWord").val();
-			$.post('<%=path%>/manage/system!check.do?userName='+userName+'&passWord='+pwd,function(data){
+			$.post('<%=path%>/system/login',{userName:userName,password:pwd},function(data){
                        if(data.success){
                     	   $('#ff').submit();
                        }else{
