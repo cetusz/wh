@@ -107,6 +107,14 @@ public abstract class AbstractBaseMapper<T extends BaseEntity> implements BaseMa
 	}
 	
 	@Override
+	@Transactional
+	public void deleteMutil(List<Long> ids){
+		checkSqlNamespace();
+		sqlSessionTemplate.delete(this.getSqlNamespace()+".deleteMutil", ids);
+	}
+	
+	
+	@Override
 	public List<T> selectList(Query query, Sort sorts){
 		//断言getSqlNamespace()是否实现
 		checkSqlNamespace();

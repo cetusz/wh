@@ -60,6 +60,12 @@ public interface BaseMapperInterface<T extends BaseEntity> {
 	 * @return
 	 */
 	public abstract List<T> selectList(Query query, Sort sorts);
+	
+	/**
+	 * 批量删除数据
+	 * @param ids
+	 */
+	public abstract void deleteMutil(List<Long> ids);
 
 	/**
 	 * 分页查询

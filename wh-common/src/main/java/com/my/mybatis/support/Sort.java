@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.my.mybatis.support;
 
 import java.util.HashMap;
@@ -8,11 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-/**
- * 
- * @author 904032
- *
- */
 public class Sort {
 	Map<String, Boolean> sortsMap = new HashMap<String, Boolean>();
 

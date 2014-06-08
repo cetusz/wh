@@ -45,6 +45,15 @@
 	</mvc:interceptors>
 	-->	
 	
+	<mvc:interceptors>  
+	     <mvc:interceptor>
+	        <mvc:mapping path="/admin/*"/>
+    		<bean class="com.wh.app.web.intercepters.LoginIntercepter" /> 
+	     </mvc:interceptor>
+	</mvc:interceptors>  
+	<!-- 解决默跳转到登录页问题 -->
+	<mvc:view-controller path="/" view-name="login"/>
+	
 	<!-- 按类名处理 -->
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 	
@@ -56,7 +65,7 @@
 
 	<!-- 总错误处理-->  
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
-		<property name="defaultErrorView" value="common/error" />    
+		<property name="defaultErrorView" value="error/error" />    
 		<property name="defaultStatusCode" value="500" />       
 		<property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />     
 	</bean>
