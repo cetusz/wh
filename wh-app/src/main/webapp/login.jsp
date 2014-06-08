@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body style="background:#E0ECFF;">
 	<div id="w" class="easyui-window" title="微航后台管理-登录" style="width:300px;height:200px;top:200px;padding:10px;">
-	    <form id="ff" method="post" action="<%=path%>/manage/system!login.do">
+	    <form id="ff" method="post" action="<%=path%>/system/login">
 	    	<table align="center">
 	    		<tr>
 	    			<td>用户名:</td>
@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function submitForm(){
 			var userName = $("#userName").val();
 			var pwd =  $("#passWord").val();
-			$.post('<%=path%>/system/login',{userName:userName,password:pwd},function(data){
+			$.post('<%=path%>/system/finduser',{userName:userName,password:pwd},function(data){
                        if(data.success){
                     	   $('#ff').submit();
                        }else{

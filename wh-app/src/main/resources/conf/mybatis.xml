@@ -16,9 +16,7 @@
 		</plugin>
 	</plugins>
 	<mappers>
-	<!-- 
-		<mapper resource="com/wh/app/web/mapper/PlaySourceMapper.xml" />
-		 -->
+		<mapper resource="com/wh/app/web/mapper/UserMapper.xml" />
 	</mappers>
 </configuration>
 

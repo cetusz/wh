@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.app.web.mapper.pub.UserMapper">
+	
+   <resultMap type="UserEntity" id="resultMap">
+        <result property="id" column="id"/>
+        <result property="userName" column="userName"/>
+		<result property="passWord" column="passWord"/>
+		<result property="lastUpdateTime" column="lastUpdateTime"/>
+		<result property="createTime" column="createTime"/>
+    </resultMap>
+
+		
+	<sql id="select_columns">
+		t.id,  t.userName,  t.passWord,  t.createTime,  t.lastUpdateTime
+    </sql>
+	
+	<insert id="save" parameterType="UserEntity" 
+		useGeneratedKeys="true" keyProperty="id">
+		 <![CDATA[
+			 INSERT INTO t_user(
+				userName,  passWord,  createTime,  lastUpdateTime
+			 )VALUES(
+			 	#{userName},  #{passWord},  #{createTime},  #{lastUpdateTime}
+			 )
+		 ]]>
+	</insert>
+	
+    <update id="update" parameterType="UserEntity" flushCache="true">
+        UPDATE t_user t
+        <set>
+	        <if test="userName!= null and userName!= ''" >t.userName=#{userName},</if>
+			<if test="passWord!= null and passWord!= ''" >t.passWord=#{passWord},</if>
+			<if test="createTime!= null and createTime!= ''" >t.createTime=#{createTime},</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" >t.lastUpdateTime=#{lastUpdateTime},</if>
+		</set> 
+		WHERE id = #{id}
+ 	</update>
+	
+	<!-- 主键删除 -->
+	<delete id="deleteOne" flushCache="true" parameterType="Long">
+		DELETE FROM t_user WHERE id = #{id}
+	</delete>
+
+	
+	
+	<!-- 多行删除 -->
+     <delete id="deleteMulti"  parameterType="List">
+   		delete from t_user 
+   		<where>
+			<if test="list != null and list != ''">
+				 id in 
+				<foreach collection="list" item="key" open=" ( " close=" ) " separator=",">
+					#{key}
+				</foreach>
+			</if>
+		</where>
+   </delete>
+   
+
+	<!-- 对象查询 -->
+	<select id="findOne" resultMap="resultMap" parameterType="Long">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_user t
+		WHERE t.id = #{id}
+	</select>
+
+	<!-- list分页查询 -->
+	<select id="selectList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_user t
+		<include refid="select_where_sql"/>
+	</select>
+
+	<!-- 查询字段  -->
+	<sql id="select_where_sql">
+		<where>
+			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
+			<if test="userName!= null and userName!= ''" > AND t.userName=#{userName}</if>
+			<if test="passWord!= null and passWord!= ''" > AND t.passWord=#{passWord}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询 -->	
+	<select id="getPageList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_user t
+		<include refid="page_where_sql"/>
+	</select>
+  
+  	<!-- 查询字段  -->
+	<sql id="page_where_sql">
+		<where>
+			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
+			<if test="userName!= null and userName!= ''" > AND t.userName=#{userName}</if>
+			<if test="passWord!= null and passWord!= ''" > AND t.passWord=#{passWord}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+		</where>
+	</sql>
+
+</mapper>
