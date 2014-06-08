@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc ="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task.xsd
+		">
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- 视图解释类 -->
+	<!-- html 
+	<bean id="htmlViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/html/" />
+		<property name="suffix" value=".html" />
+	</bean>
+	-->
+	<!-- jsp -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<!-- <property name="prefix" value="/views/" /> -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	
+	<!--  拦截器使用
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		<mvc:interceptor>
+			<mapping path="/**"/>
+			<exclude-mapping path="/admin/**"/>
+			<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mapping path="/secure/*"/>
+			<bean class="org.example.SecurityInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	-->	
+	
+	<!-- 按类名处理 -->
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+	
+		
+	<!-- 注解mapping	-->
+	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	</bean>					 
+
+
+	<!-- 总错误处理-->  
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+		<property name="defaultErrorView" value="common/error" />    
+		<property name="defaultStatusCode" value="500" />       
+		<property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />     
+	</bean>
+	
+	<!-- Imports user-defined @Controller beans that process client requests -->
+	<import resource="spring-mvc-controllers.xml" />
+	
+	<task:annotation-driven />
+		
+</beans>

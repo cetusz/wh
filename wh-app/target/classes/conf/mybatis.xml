@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<!--  
+		<property name="dialect" value="mysql"/>
+		-->
+	</properties>
+	<typeAliases>
+	</typeAliases>
+	<plugins>
+		<plugin interceptor="com.my.mybatis.support.interceptor.ResultSetInterceptor" />
+		<plugin interceptor="com.my.mybatis.support.interceptor.PageInterceptor">
+			<property name="dialect" value="mysql" />
+		</plugin>
+	</plugins>
+	<mappers>
+	<!-- 
+		<mapper resource="com/wh/app/web/mapper/PlaySourceMapper.xml" />
+		 -->
+	</mappers>
+</configuration>
+
+ 

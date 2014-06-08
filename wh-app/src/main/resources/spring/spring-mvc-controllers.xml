@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- Maps '/' requests to the 'home' view -->
+	<mvc:view-controller path="/" view-name="index"/>
+	<!-- 自动注解 -->	          
+	<context:component-scan base-package="com.coship.cap" />
+	<context:component-scan base-package="com.coship.cbb.mybatis.support.mapper" />
+	
+	<!-- mvc自动注解  -->
+	<mvc:annotation-driven>
+	        <mvc:message-converters register-defaults="true">
+	            <!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+	            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	                <constructor-arg value="UTF-8"/>
+	                <property name = "supportedMediaTypes">
+	                    <list>
+	                        <bean class="org.springframework.http.MediaType">
+	                            <constructor-arg index="0" value="text"/>
+	                            <constructor-arg index="1" value="plain"/>
+	                            <constructor-arg index="2" value="UTF-8"/>
+	                        </bean>
+	                        <bean class="org.springframework.http.MediaType">
+	                            <constructor-arg index="0" value="*"/>
+	                            <constructor-arg index="1" value="*"/>
+	                            <constructor-arg index="2" value="UTF-8"/>
+	                        </bean>
+	                    </list>
+	                </property>
+	            </bean>
+          </mvc:message-converters>  
+     </mvc:annotation-driven>  
+
+</beans>

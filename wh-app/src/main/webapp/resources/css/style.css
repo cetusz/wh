@@ -1,0 +1,23 @@
+ body{
+ 	font-size: 12px;
+ }
+ form{
+ 	width: 500px;
+	margin: 0 auto;
+ }
+ table.mytable{
+ 	width:500px;
+ 	border-color:#97B8E0;
+ }
+ table.mytable tr{
+   border-color:#97B8E0;
+ }
+ table.mytable tr td{
+ 	font-size:14px;
+ 	font-family:'宋体';
+ }
+ 
+ table.mytable tr td.right{
+ 	text-align:right;
+ }
+     
