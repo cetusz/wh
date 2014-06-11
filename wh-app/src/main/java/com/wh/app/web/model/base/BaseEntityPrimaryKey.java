@@ -18,7 +18,6 @@ import com.my.common.domain.BaseEntity;
  */
 public abstract class BaseEntityPrimaryKey implements BaseEntity<Long> {
 
-
 	private Long id;
 	private Date createTime;
 	private Date lastUpdateTime;

@@ -2,7 +2,26 @@ package com.wh.test;
 
 public class Generator {
 
-	public static void main(String[] args) {
+	private static  void generateAccount(){
+		String[] cols = {
+				"id",
+				"accountId",
+				"chineseName",
+				"funcintro",
+				"wxcredit",
+				"sinacredit",
+				"isCrawler",
+				"qrCodeUrl",
+				"cateIds",
+				"bizId",
+				"isShielded",
+				"createTime",
+				"lastUpdateTime",
+				"version"
+		};
+		printConfig(cols);
+	}
+	private static void generateUsr(){
 		String[] cols = {
 				"id",
 				"userName",
@@ -10,6 +29,13 @@ public class Generator {
 				"createTime",
 				"lastUpdateTime"
 		};
+		printConfig(cols);
+	}
+	public static void main(String[] args) {
+		generateAccount();
+	}
+	
+	private static void printConfig(String[] cols){
 		printSql(cols);
 		System.out.println("");
 		System.out.println("+++++++columns+++++++");
@@ -27,7 +53,6 @@ public class Generator {
 		printResult(cols);
 		System.out.println("+++++++printUpdateSql++++++");
 		printUpdateParamSql(cols);
-		
 	}
 	
 	private static void printResult(String[] cols){

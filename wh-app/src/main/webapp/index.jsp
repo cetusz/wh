@@ -86,7 +86,7 @@
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head"><s:property value="#session.user.userName"/> 你好！ <a href="#" id="editpass" onclick="openPassword()">修改密码</a> <a href="../system/logout" id="loginOut">安全退出</a></span>
 
-        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" /> 爬虫管理</span>
+        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" />微航后台管理</span>
 		
 		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
 				<li ><a class="active" name="basic" href="javascript:;">公众账号</a></li>
