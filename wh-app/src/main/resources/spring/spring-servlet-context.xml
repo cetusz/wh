@@ -69,7 +69,7 @@
 		<property name="defaultStatusCode" value="500" /> 
 		<property name="exceptionMappings">  
     		<props>  
-      		  <prop key="java.lang.Exception">/error/error</prop>  
+      		  <prop key="java.lang.exception">/error/error</prop>  
     		</props>  
 		</property>        
 		<property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />     
