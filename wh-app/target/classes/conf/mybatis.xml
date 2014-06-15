@@ -17,6 +17,9 @@
 	</plugins>
 	<mappers>
 		<mapper resource="com/wh/app/web/mapper/UserMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/PublicAccountEditMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/EassayEditMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/CategoryEditMapper.xml" />
 	</mappers>
 </configuration>
 

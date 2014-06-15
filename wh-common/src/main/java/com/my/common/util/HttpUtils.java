@@ -32,9 +32,12 @@ public class HttpUtils {
 		return httpUtils;
 	}
 	Logger log = LoggerFactory.getLogger(HttpUtils.class);
-	public String doGet(String url,String charset) {
+	public String doGet(String url,String charset,String reffer) {
 		HttpClient client = new HttpClient(); // 实例化httpClient
 		HttpMethod method = new GetMethod(url); //
+		if(StringUtils.isNotEmpty(reffer)){
+			method.addRequestHeader("reffer",reffer);
+		}
 		method.addRequestHeader("Cache-Control", "max-age=0");  
 		method.addRequestHeader("Connection", "keep-alive");
 		method.addRequestHeader("Cookie", COOKIE.replaceFirst("dprHP", String.valueOf(Math.round((Math.random()*1000000000))+Math.round(Math.random()*10000000)))+"");
@@ -122,11 +125,11 @@ public class HttpUtils {
 		return responseContent;
 	}
 	public String doGetWithReconnect(String url,String charset){
-		String content = doGet(url,charset);
+		String content = doGet(url,charset,null);
 		//检测重连
 		if(StringUtils.isEmpty(content)){
 			for(int i=0;i<3;i++){
-				content = HttpUtils.getInstance().doGet(url, "utf-8");
+				content = HttpUtils.getInstance().doGet(url, "utf-8",null);
 				if(StringUtils.isNotEmpty(content)){
 					break;
 				}
@@ -184,7 +187,7 @@ public class HttpUtils {
 	}
 	public static void main(String[] args) {
 		String url = "http://14.17.82.18/live/c2_bjwsHD_s10.f4v?key=a37b3510ec066b10&ran=0.36604522867128253";
-		System.out.println(HttpUtils.getInstance().doGet(url,"utf-8"));
+		System.out.println(HttpUtils.getInstance().doGet(url,"utf-8",null));
 	}
 	
 

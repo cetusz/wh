@@ -1,13 +1,25 @@
 package com.wh.app.web.model.base;
 
-public class PublicAccountBase extends BaseEntityPrimaryKey{
+import java.io.Serializable;
+
+public class PublicAccountBase extends BaseEntityPrimaryKey implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//微信公众账号ID
 	private String accountId;
+	//头像地址
+	private String headImg;
 	//中文名称
 	private String chineseName;
-	//简介
-	private String intro;
+	//功能简介
+	private String funcintro;
+	//微信认证信息
+	private String wxcredit;
+	//新浪认证
+	private String sinacredit;
 	//是否爬取
 	private boolean isCrawler;
 	//二维码地址
@@ -23,11 +35,34 @@ public class PublicAccountBase extends BaseEntityPrimaryKey{
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
-	public String getIntro() {
-		return intro;
+	
+	public String getHeadImg() {
+		return headImg;
 	}
-	public void setIntro(String intro) {
-		this.intro = intro;
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
+	public String getFuncintro() {
+		return funcintro;
+	}
+	public void setFuncintro(String funcintro) {
+		this.funcintro = funcintro;
+	}
+	public String getWxcredit() {
+		return wxcredit;
+	}
+	public void setWxcredit(String wxcredit) {
+		this.wxcredit = wxcredit;
+	}
+
+	public String getSinacredit() {
+		return sinacredit;
+	}
+	public void setSinacredit(String sinacredit) {
+		this.sinacredit = sinacredit;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public boolean isCrawler() {
 		return isCrawler;

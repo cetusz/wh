@@ -23,7 +23,7 @@
 			"menuid" : "101",
 			"menuname" : "账号列表",
 			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/channel!tolist.do?ts="+new Date()
+			"url" : "<%=path%>/admin/publicaccountedit/tolist"
 		}]
 	} ],
 	content : [{
@@ -34,8 +34,20 @@
 			"menuid" : "201",
 			"menuname" : "内容列表",
 			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/asset!tolist.do?ts="+new Date()
+			"url" : "<%=path%>/admin/eassay/tolist"
 		}
+]}],
+
+category : [{
+	"menuid" : "20",
+	"icon" : "icon-sys",
+	"menuname" : "分类管理",
+	"menus" : [ {
+		"menuid" : "201",
+		"menuname" : "分类列表",
+		"icon" : "icon-nav",
+		"url" : "<%=path%>/admin/category/tolist"
+	}
 ]}],
  config : [{
 	"menuid" : "30",
@@ -86,13 +98,15 @@
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head"><s:property value="#session.user.userName"/> 你好！ <a href="#" id="editpass" onclick="openPassword()">修改密码</a> <a href="../system/logout" id="loginOut">安全退出</a></span>
 
-        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" /> 爬虫管理</span>
+        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=path %>/resources/images/blocks.gif" width="20" height="20" align="absmiddle" />微航后台管理</span>
 		
 		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
 				<li ><a class="active" name="basic" href="javascript:;">公众账号</a></li>
 				<li ><a name="content" href="javascript:;">文章</a></li>
+				<li ><a name="category" href="javascript:;">分类</a></li>
 				<li ><a name="config" href="javascript:;">配置</a></li>
 				<li><a name="user" href="javascript:;">用户</a></li>
+				<li><a name="recommand" href="javascript:;">推荐</a></li>
 		</ul>
     </div>
     <div region="south" split="true" >
@@ -147,6 +161,6 @@
 		function clearForm(){
 			$('#ff').form('clear');
 		}
-	</script>s
+	</script>
 </body>
 </html>

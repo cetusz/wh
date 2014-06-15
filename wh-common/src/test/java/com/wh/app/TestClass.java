@@ -20,6 +20,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
+import com.my.common.util.HttpUtils;
+
 public class TestClass {
 
 	/**
@@ -53,7 +55,7 @@ public class TestClass {
 	
 	@Test
 	public  void testHttp() {
-		String url = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxcheckurl?uin=2768183621&sid=m4Z9lc%2BsgTxKxmUg&skey=%40crypt_3d539bce_dc97c55ffff78ef9b6f2edffd4dde6e6&deviceid=e664179215001909&opcode=2&requrl=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fgetmasssendmsg%3F__biz%3DMjM5NDAxMTE0MA%3D%3D%23wechat_webview_type%3D1%26wechat_redirect&scene=1&username=wxid_4flqugtqlbdo21";
+		String url = "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=oIWsFtxEOaH_uvcGuOmNIfoVLBQ0&page=1&t=1402489723418";
 		HttpClient client = new HttpClient(); // 实例化httpClient
 		HttpMethod method = new GetMethod(url); //
 		//method.addRequestHeader("Host", "short.weixin.qq.com");  
@@ -97,11 +99,31 @@ public class TestClass {
 	@Test
 	public void jsoupTest() throws IOException{
 		//String url = "https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxcheckurl?uin=2768183621&sid=m4Z9lc%2BsgTxKxmUg&skey=%40crypt_3d539bce_dc97c55ffff78ef9b6f2edffd4dde6e6&deviceid=e664179215001909&opcode=2&requrl=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fgetmasssendmsg%3F__biz%3DMjM5NDAxMTE0MA%3D%3D%23wechat_webview_type%3D1%26wechat_redirect&scene=1&username=wxid_4flqugtqlbdo21";
-		String url = "https://wx.qq.com";
+		//String url = "https://wx.qq.com";
 		String uuid_url = " https://login.weixin.qq.com/jslogin?appid=wx782c26e4c19acffb&redirect_uri=https%3A%2F%2Fwx2.qq.com%2Fcgi-bin%2Fmmwebwx-bin%2Fwebwxnewloginpage&fun=new&lang=zh_CN";
-		Document doc = Jsoup.connect(uuid_url).timeout(20000).followRedirects(true).get();
-		System.out.println(doc.body().toString().replace("&quot;",""));
+		String url = "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=oIWsFtxEOaH_uvcGuOmNIfoVLBQ0&page=1&t=1402489723418";
+		Document doc = Jsoup.connect(url)
+				.referrer("http://weixin.sogou.com/gzh?openid=oIWsFtxEOaH_uvcGuOmNIfoVLBQ0")
+				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.172 Safari/537.22")
+				.timeout(20000)
+				//.cookie("SUID", "87084D743DCA0B0A539331A200010F81")
+				//.cookie("CXID","2C64DAB3ED939E823020D1960279676A")
+				//.cookie("SUV","003B59B2744D0887539841057E153749")
+				//.cookie("ad","NJp3Syllll2F68pAlllllVnYS7llllllN91wPZllllollllljZlll5@@@@@@@@@@")
+				//.cookie("IPLOC","CN4403")
+				//.cookie("SNUID","E060251C676C9CE9FC716A8568B47409")
+				.get();
+		System.out.println(doc);
       
+	}
+	
+	@Test
+	public void testSogou(){
+		String url = "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=oIWsFtxEOaH_uvcGuOmNIfoVLBQ0&page=1&t=1402489723418";
+		String content = HttpUtils.getInstance().doGet(url, "utf-8",null);
+		String json = content.substring(content.indexOf("(")+1,content.lastIndexOf(")"));
+		System.out.println(json);
+		
 	}
 
 }

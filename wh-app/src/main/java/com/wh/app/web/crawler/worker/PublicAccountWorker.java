@@ -141,7 +141,7 @@ public class PublicAccountWorker extends BaseWorker implements Runnable{
 		raw.setChineseName(titles.size()>0?titles.get(0).text():"");
 		raw.setAccountId(wxids.size()>0?wxids.get(0).text().split(":")[1]:"");
 		raw.setCrawler(true);
-		raw.setIntro(intrs.size()>0?intrs.get(0).text():"");
+		//raw.setIntro(intrs.size()>0?intrs.get(0).text():"");
 		//raw.setQrCodeUrl(qrCodeUrl);.
 		PublicAccountManager.getInstance().push(raw);
 		System.out.println(raw.getAccountId());

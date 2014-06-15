@@ -4,7 +4,7 @@ package com.wh.app.web.model.base;
  * @author Benjamin
  *
  */
-public class PublicAccountCategoryBase extends BaseEntityPrimaryKey{
+public class CategoryBase extends BaseEntityPrimaryKey{
 
 	private String cateName;
 	private Integer orderNum;

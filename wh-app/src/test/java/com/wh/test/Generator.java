@@ -2,7 +2,26 @@ package com.wh.test;
 
 public class Generator {
 
-	public static void main(String[] args) {
+	private static  void generateAccount(){
+		String[] cols = {
+				"id",
+				"accountId",
+				"chineseName",
+				"funcintro",
+				"wxcredit",
+				"sinacredit",
+				"isCrawler",
+				"qrCodeUrl",
+				"cateIds",
+				"bizId",
+				"isShielded",
+				"createTime",
+				"lastUpdateTime",
+				"version"
+		};
+		printConfig(cols);
+	}
+	private static void generateUsr(){
 		String[] cols = {
 				"id",
 				"userName",
@@ -10,6 +29,45 @@ public class Generator {
 				"createTime",
 				"lastUpdateTime"
 		};
+		printConfig(cols);
+	}
+	
+	private static void generateCate(){
+		String[] cols = {
+				"id",
+				"cateName",
+				"orderNum",
+				"version",
+				"createTime",
+				"lastUpdateTime"
+				};
+		printConfig(cols);
+	}
+	
+	private static void printEasay(){
+		String[] cols ={
+				"id",
+				"sourceId",
+				"title",
+				"content",
+				"intro",
+				"contentUrl",
+				"categoryId",
+				"categoryName",
+				"accountId",
+				"accountName",
+				"openId",
+				"isRecommanded",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	public static void main(String[] args) {
+		generateCate();
+	}
+	
+	private static void printConfig(String[] cols){
 		printSql(cols);
 		System.out.println("");
 		System.out.println("+++++++columns+++++++");
@@ -27,7 +85,6 @@ public class Generator {
 		printResult(cols);
 		System.out.println("+++++++printUpdateSql++++++");
 		printUpdateParamSql(cols);
-		
 	}
 	
 	private static void printResult(String[] cols){

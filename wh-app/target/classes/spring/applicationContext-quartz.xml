@@ -15,8 +15,8 @@
           ">
  
 	<!-- 同步频道/频道分类方法 -->
-	<bean id="PPTVExtractorSERVICE" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-	    <property name="targetObject" ref="pptvExtractor" />
+	<bean id="EASSAYExtractorSERVICE" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	    <property name="targetObject" ref="eassayExtractor" />
 		<property name="targetMethod" value="execute" />
 		<!-- 不允许并发执行 -->
 		<property name="concurrent" value="false"/>
@@ -24,9 +24,9 @@
 	
 	<!-- 下面为时间运营环境使用  -->
 	<bean id="PPTVExtractorSERVICETrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="PPTVExtractorSERVICE" />		
+		<property name="jobDetail" ref="EASSAYExtractorSERVICE" />		
 		<property name="cronExpression">
-                <value>0 0 0 * * ?</value>
+                <value>0 0 0/2 * * ?</value>
         </property>
 	</bean>	
 

@@ -3,12 +3,8 @@ package com.wh.app.web.service.pub.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-import org.springframework.stereotype.Component;
-=======
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
->>>>>>> develop
 
 import com.my.common.domain.Query;
 import com.my.mybatis.support.Page;
@@ -18,12 +14,8 @@ import com.wh.app.web.model.pub.UserEntity;
 import com.wh.app.web.model.query.UserQuery;
 import com.wh.app.web.service.pub.UserService;
 
-<<<<<<< HEAD
-@Component
-=======
 @Service
-@Transactional
->>>>>>> develop
+//@Transactional
 public class UserServiceImpl implements UserService{
 
 	@Autowired
@@ -61,10 +53,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-<<<<<<< HEAD
-=======
 	@Transactional
->>>>>>> develop
 	public UserEntity login(String userName, String password) {
 		UserQuery query = new UserQuery();
 		query.setUserName(userName);
