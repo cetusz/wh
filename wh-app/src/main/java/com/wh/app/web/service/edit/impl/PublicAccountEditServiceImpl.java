@@ -47,4 +47,9 @@ public class PublicAccountEditServiceImpl implements PublicAccountEditService {
 		return publicAccountEditMapper.getPage(pager, query, sorts);
 	}
 
+	@Override
+	public void setTypeMutil(List<Long> ids, String typeId) {
+		publicAccountEditMapper.setAccountType(ids, typeId);
+	}
+
 }

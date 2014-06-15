@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 登录拦截器
+ * 鐧诲綍楠岃瘉
  * @author Benjamin
  *
  */
@@ -21,7 +21,7 @@ public class LoginIntercepter implements HandlerInterceptor {
 			throws Exception {
 		
 		long timeTotal = System.currentTimeMillis()-timeThreadLocal.get();
-		System.out.println("请求消耗时间: "+timeTotal+" ms");
+		System.out.println("鑰楁椂: "+timeTotal+" ms");
 	}
 
 	@Override

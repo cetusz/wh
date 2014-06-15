@@ -2,8 +2,13 @@ package com.wh.app.web.extractor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -37,16 +42,52 @@ public class SogouWeixinExtractor {
 			isRunning = true;
 			//数量不多时可以全取
 			List<PublicAccountEdit> accounts = accountEditService.selectList(null, null);
+			List<PublicAccountEdit> list = Collections.synchronizedList(accounts);
+			final BlockingQueue<PublicAccountEdit> quene = new ArrayBlockingQueue<PublicAccountEdit>(150);
 			for(PublicAccountEdit account:accounts){
-				extractEassay(account);
+				try {
+					quene.put(account);
+				} catch (InterruptedException e) {
+					logger.error("put failure",e);
+				}
 			}
+			ExecutorService  executor =Executors.newFixedThreadPool(5);
+			executor.execute(new Runnable(){
+				@Override
+				public void run() {
+					PublicAccountEdit account = null;
+					try {
+						while( quene.size()>0){
+				            account = quene.take();
+				            if(account!=null){
+								logger.info("extreact "+account.getChineseName());
+								extractEassay(account);
+							}
+						}
+					} catch (InterruptedException e) {
+						logger.error("take failure",e);
+					}
+					
+				}
+				
+			});
+			//for(PublicAccountEdit account:accounts){
+			//	extractEassay(account);
+			//}
 		}
 	}
 	
 	private void extractEassay(PublicAccountEdit account){
+		String lastCrawlerDate = account.getLastCrawlerDate();
+		String toDayCrawlerDate = "";
 		int totalPage = 2;
+		//记录内层循环，内层跳出 外循环也跳出
+		boolean isBreak = false;
 		String openId = account.getBizId();
 		for(int pageindex=1;pageindex<=totalPage;pageindex++){
+			if(isBreak){
+				break;
+			}
 			String page =  String.format(pageUrl, openId,pageindex,System.currentTimeMillis());
 			String content = HttpUtils.getInstance().doGet(page, "utf-8",null);
 			String json = content.substring(content.indexOf("(")+1,content.lastIndexOf(")"));
@@ -64,6 +105,21 @@ public class SogouWeixinExtractor {
 					Element item =(Element)Dom4jUtil.getSubElementByTagName(root, "item").get(0);
 					Element display = (Element)Dom4jUtil.getSubElementByTagName(item, "display").get(0);
 					String sourceId = display.elementText("docid");
+					String date = display.elementText("date");
+					if(pageindex==1 && index == 0){
+						toDayCrawlerDate = date;
+					}
+					if(StringUtils.isNotBlank(lastCrawlerDate)){
+						date = date.indexOf(":")==-1?date+" 00:00:00":date;
+						lastCrawlerDate = lastCrawlerDate.indexOf(":")==-1?lastCrawlerDate+" 00:00:00":lastCrawlerDate;
+						Date lastCrawlerDay = parseDate(lastCrawlerDate);
+						Date dateTime = parseDate(date);
+						//小于上次更新的时间就跳出循环;
+						if(dateTime.before(lastCrawlerDay)){
+							isBreak = true;
+							break;
+						}
+					}
 					EassayEditQuery query = new EassayEditQuery();
 					query.setSourceId(sourceId);
 					query.setOpenId(openId);
@@ -76,9 +132,9 @@ public class SogouWeixinExtractor {
 						eassay.setContentUrl(display.elementText("url"));
 						eassay.setIntro(display.elementText("content"));
 						eassay.setAccountName(display.elementText("sourcename"));
-						String date = display.elementText("date");
 						if(StringUtils.isNotEmpty(date)){
 							date = date.indexOf(":")==-1?date+" 00:00:00":date;
+							
 							Date dateTime = parseDate(date);
 							eassay.setPubDate(dateTime);
 						}
@@ -91,10 +147,19 @@ public class SogouWeixinExtractor {
 				}
 			} catch (JSONException e) {
 				logger.error(e);
+				isRunning = false;
 			} catch (ParseException e) {
 				logger.error(e);
-			} 
+				isRunning = false;
+			} catch (NullPointerException ex){
+				logger.error(ex);
+				isRunning = false;
+			}
 		}
+		//更新上次的更新时间
+		account.setLastCrawlerDate(toDayCrawlerDate);
+		accountEditService.saveOrUpdate(account);
+		logger.info(account.getChineseName()+" finished");
 		isRunning = false;
 	}
 	

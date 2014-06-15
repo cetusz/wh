@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.mybatis.support.Page;
+import com.my.mybatis.support.Sort;
 import com.wh.app.web.extractor.SogouWeixinExtractor;
 import com.wh.app.web.model.edit.EassayEdit;
 import com.wh.app.web.model.query.EassayEditQuery;
@@ -38,7 +39,9 @@ public class EassayEditController {
 	public @ResponseBody Map<String,Object> list(EassayEditQuery query,@RequestParam("page")int page,@RequestParam("rows")int rows){
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		 Page<EassayEdit> pager = new Page<EassayEdit>(rows,page);
-		 eassayEditService.getPageList(pager, query, null);
+		 Sort sort = new Sort();
+		 sort.setTableSort("pubDate",true);
+		 eassayEditService.getPageList(pager, query, sort);
 		 resultMap.put("total", pager.getTotal());
 		 resultMap.put("rows", pager.getResult());
 		 return resultMap;

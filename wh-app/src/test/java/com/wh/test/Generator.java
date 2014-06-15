@@ -32,6 +32,18 @@ public class Generator {
 		printConfig(cols);
 	}
 	
+	private static void generateCate(){
+		String[] cols = {
+				"id",
+				"cateName",
+				"orderNum",
+				"version",
+				"createTime",
+				"lastUpdateTime"
+				};
+		printConfig(cols);
+	}
+	
 	private static void printEasay(){
 		String[] cols ={
 				"id",
@@ -52,7 +64,7 @@ public class Generator {
 		printConfig(cols);
 	}
 	public static void main(String[] args) {
-		printEasay();
+		generateCate();
 	}
 	
 	private static void printConfig(String[] cols){

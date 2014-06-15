@@ -6,8 +6,6 @@ import java.lang.reflect.Field;
  * 
  * <p>反射工具类</p>
  * 
- * @author 904032
- * @date 2014-2-14
  */
 public class ReflectHelper {
 	/**

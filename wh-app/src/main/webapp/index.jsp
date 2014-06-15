@@ -106,6 +106,7 @@ category : [{
 				<li ><a name="category" href="javascript:;">分类</a></li>
 				<li ><a name="config" href="javascript:;">配置</a></li>
 				<li><a name="user" href="javascript:;">用户</a></li>
+				<li><a name="recommand" href="javascript:;">推荐</a></li>
 		</ul>
     </div>
     <div region="south" split="true" >

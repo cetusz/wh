@@ -3,13 +3,11 @@ package com.wh.test;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-import org.apache.commons.codec.binary.Base64;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.junit.Test;
 
 import com.my.common.util.Dom4jUtil;
 import com.my.common.util.HttpUtils;
@@ -45,7 +43,6 @@ public class TestSogou {
 		}
 	}
 	
-	@Test
 	public void testQuery() throws IOException{
 		String name = "大楚网";
 		System.out.println(URLEncoder.encode(name));

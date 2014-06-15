@@ -16,14 +16,14 @@
     <script type="text/javascript" src="<%=path %>/resources/js/ajaxfileupload.js"></script>
     <script type="text/javascript" src="<%=path %>/resources/js/ajaxloading.js"></script>
     <script type="text/javascript" src="<%=path %>/resources/easyui/locale/easyui-lang-zh_CN.js"></script>
-	<title>公众账号列表</title>
+	<title>分类列表</title>
 </head>
 <body>
 
 	<div class="easyui-layout" fit="true">
 		
 		<!-- 列表数据定义的存放表格 -->
-		<table id="list_data"  title="公众账号列表"  fit="true" data-options="toolbar:'#tb'">
+		<table id="list_data"  title="分类列表"  fit="true" data-options="toolbar:'#tb'">
 		</table>
 		
 		<div id="tb" style="padding:5px;height:auto">
@@ -32,81 +32,28 @@
 		    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="update()">修改</a>
 		    	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="del()">删除</a>
 		    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="setType()">设置分类</a>
-		        <a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="importData()">批量导入</a>
 			</div>
 		    <div>
-				公众账号名称:<input class="easyui-text" style="width: 150px"
-						id="chineseName" name="chineseName" > 
-				公众账号ID:<input class="easyui-text" style="width: 150px"
-						id="accountId" name="accountId" > 
+				分类名称:<input class="easyui-text" style="width: 150px"
+						id="cateName" name="cateName" > 
 				<a href="#" class="easyui-linkbutton" iconCls="icon-search"
 					onclick="doSearch()">查询</a>
 			</div>
 		</div>
-	</div>
-	
-	  <div id="uploadfileDiv"  class="easyui-window" title="上传文件" data-options="modal:true,closed:true" style="width:450px;height:150px;">
-		<table style="width:400px;border-collapse:collapse;">
-			 <tr>
-			     <td>
-			        <input type="file" name="myfiles" id="myfiles" />
-			     </td>
-			 </tr>
-			 <tr>
-			 	<td align=center>
-			 	    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:ajaxFileUpload()">上传</a>
-					<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="javascript:closeupload()">关闭</a>
-			 	</td>
-			 </tr>
-		</table>
-	</div>
-	
-	<div id="set_type_window" class="easyui-window" style="width:600px;height:370px;"  data-options="modal:true,closed:true"  title="设置分类">
-			       	<table id="category_list_data" style="width:600px;height:370px;"  title="分类列表"  fit="true" data-options="toolbar:'#ctb'">
-		            </table>
-					<div id="ctb" style="padding:5px;height:auto">
-					    <div>
-							分类名称:<input class="easyui-text" style="width: 150px"
-									id="cateName" name="cateName" > 
-							<a href="#" class="easyui-linkbutton" iconCls="icon-search"
-								onclick="doTypeSearch()">查询</a>
-								 <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:save_set_type()">设置</a>
-					          <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="javascript:close_set_type()">关闭</a>
-								
-						</div>
-					</div>
 	</div>
 </body>
 <script>
   $(function(){
 	  var options = {
 	            columns:[[
-						{field:'id',title:'公众账号id',align:'center',hidden:true},
-						{field:'accountId',title:'公众账号id',align:'center'},
-						{field:'chineseName',title:'公众账号名称',align:'center',width:130,formatter:function(value,row,index){
+						{field:'id',title:'id',align:'center',hidden:true},
+						{field:'cateName',title:'分类名称',align:'center',width:130,formatter:function(value,row,index){
 							return '<a href=#>'+value+'</a>';
 						}
 						},
-						{field:'cateIds',title:'分类',align:'center',width:150,
-					},
-					{field:'bizId',title:'bizId',align:'center'},
-					{field:'isShielded',title:'是否屏蔽',align:'center',width:100,
-						formatter:function(value,row,index){
-						   if(value){
-							   return '是';
-						   }else {
-							   return "否";
-						   }
-						}
-					},
-					{field:'headImg',title:'头像',align:'center',width:100,formatter:function(value,row,index){
-			                  if(value!=''){			
-						   	 	 return "<img src='"+value+"' width=50"+" onerror='javascript:this.src=''' height=50/>";
-			                  }
-			                  return value;
-					}}
+						{field:'orderNum',title:'排序号',align:'center',width:150}
 			 	]],
-			 	url:'<%=path %>/admin/publicaccountedit/list',
+			 	url:'<%=path %>/admin/category/list',
 			 	pageList: [20,50,500]
 			}; 
 			$('#list_data').mygrid(options);	
@@ -122,17 +69,17 @@
 		var data = $('#list_data').datagrid('getData');
 		var selectRec = data.rows[index];
 		var id = selectRec.id;
-		common.addTab('添加账号','<%=path %>/admin/publicaccountedit/toadd?id='+id,'icon icon-nav');
+		common.addTab('添加分类','<%=path %>/admin/category/toadd?id='+id,'icon icon-nav');
   }
   
   function add(){
-	  common.addTab('添加账号','<%=path %>/admin/publicaccountedit/toadd','icon icon-nav');
+	  common.addTab('添加分类','<%=path %>/admin/category/toadd','icon icon-nav');
   }
   
   function update(){
 	  var rows = $("#list_data").datagrid("getSelections");
       if (rows.length == 1) {
- 			common.addTab('添加账号','<%=path %>/admin/publicaccountedit/toadd?id='+rows[0].id,'icon icon-nav');
+ 			common.addTab('添加账号','<%=path %>/admin/category/toadd?id='+rows[0].id,'icon icon-nav');
       }else{
      	 $.messager.alert('提示','请选择一条记录','info')
       }
@@ -154,7 +101,7 @@
                  	}
                  	ids+=rows[i].id;
                   }
-                  $.post('<%=path%>/admin/publicaccountedit/del',{ids:ids},function(data){
+                  $.post('<%=path%>/admin/category/del',{ids:ids},function(data){
                  	 if(data.success){
                  		 $.messager.alert("提示", '删除成功!', "info");
                  		 $("#list_data").datagrid('reload');
@@ -173,11 +120,9 @@
 	 }
 
   function doSearch(){
-	        var chineseName = $("#chineseName").val();
-		    var accountId = $("#accountId").val();
+	        var cateName = $("#cateName").val();
 		   	var query = {
-	   			'accountId':accountId,
-	   			'chineseName':chineseName
+	   			'cateName':cateName
 		   	};
 		   
 		   $('#list_data').datagrid('load',query);
@@ -188,8 +133,7 @@
 	}
 	
 	
-	
-	//上传文件
+	//上传图片
 	function ajaxFileUpload(){
 		if($("#myfiles").val()==''){
 			$.messager.alert('提示','请选择文件','info');
@@ -221,59 +165,9 @@
 		});
 	}
 	
-	function setType(){
-		var rows = $("#list_data").datagrid('getSelections');
-		if(rows.length==0){
-			$.messager.alert('info','请选择记录设置','提示');
-			return;
-		}
-		$("#set_type_window").window("open");
-		 var options = {
-		            columns:[[
-							{field:'id',title:'id',align:'center',hidden:true},
-							{field:'cateName',title:'分类名称',align:'center',width:130,formatter:function(value,row,index){
-								return '<a href=#>'+value+'</a>';
-							}
-							},
-							{field:'orderNum',title:'排序号',align:'center',width:150}
-				 	]],
-				 	url:'<%=path %>/admin/category/list',
-				 	pageList: [20,50,500]
-				}; 
-				$('#category_list_data').mygrid(options);
-	}
-	
-	
 	function closeupload(){
-		$("#myfiles").val('');
 		$('#uploadfileDiv').window('close');
 	}
 	
-	function save_set_type(){
-	      var rows = $("#category_list_data").datagrid("getSelections");
-	      var cateIds = '';
-	      //选择要删除的行
-	      if (rows.length > 0) {
-	          $.messager.confirm("提示", "你确定要设置吗?", function (r) {
-	        	  cateIds += rows.id;
-	          });
-	          $.post(url,function(data){});
-	      }
-		
-	}
-	
-	function close_set_type(){
-		$("#set_type_window").window("close");
-	}
-	
-	
-	function doTypeSearch(){
-	        var cateName = $("#cateName").val();
-		   	var query = {
-	   			'cateName':cateName
-		   	};
-		   
-		   $('#category_list_data').datagrid('load',query);
-     }
 </script>
 </html>

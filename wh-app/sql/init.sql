@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `t_public_account_edit`(
 	`isCrawler`  boolean DEFAULT FALSE,
 	`qrCodeUrl`  varchar(150) DEFAULT '',
 	`cateIds`  varchar(150) DEFAULT '',
+	`cateNames`  varchar(150) DEFAULT '',
 	`bizId` varchar(200) DEFAULT '',
 	`isShielded` boolean DEFAULT FALSE,
 	`lastCrawlerDate` varchar(30) DEFAULT '', 
@@ -56,4 +57,15 @@ CREATE TABLE IF NOT EXISTS `t_eassay_edit`(
    `createTime`     timestamp,
    `lastUpdateTime` timestamp,
     PRIMARY KEY (`id`)        
+)  ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+CREATE TABLE IF NOT EXISTS `t_category_edit` (                                  
+   `id` bigint(20) NOT NULL AUTO_INCREMENT , 
+    `cateName` varchar(20) DEFAULT '',
+   `orderNum` int(2) DEFAULT 0, 
+    `createTime` timestamp,
+   `lastUpdateTime` timestamp,
+   `version` varchar(20),
+    PRIMARY KEY (`id`)                                       
 )  ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

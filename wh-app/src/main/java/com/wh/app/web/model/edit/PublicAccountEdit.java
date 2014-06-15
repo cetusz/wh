@@ -12,6 +12,8 @@ public class PublicAccountEdit extends PublicAccountBase {
 	private String bizId;
 	//是否屏蔽 true是false否，默认否
 	private boolean isShielded;
+	//分类名称显示
+	private String cateNames;
 	
 	//上次更新完畢的時間
 	private String lastCrawlerDate;
@@ -39,6 +41,16 @@ public class PublicAccountEdit extends PublicAccountBase {
 	public void setLastCrawlerDate(String lastCrawlerDate) {
 		this.lastCrawlerDate = lastCrawlerDate;
 	}
+
+	public String getCateNames() {
+		return cateNames;
+	}
+
+	public void setCateNames(String cateNames) {
+		this.cateNames = cateNames;
+	}
+	
+	
 	
 	
 	
