@@ -12,6 +12,9 @@ public class PublicAccountEdit extends PublicAccountBase {
 	private String bizId;
 	//是否屏蔽 true是false否，默认否
 	private boolean isShielded;
+	
+	//上次更新完畢的時間
+	private String lastCrawlerDate;
 
 	public String getBizId() {
 		return bizId;
@@ -28,6 +31,16 @@ public class PublicAccountEdit extends PublicAccountBase {
 	public void setShielded(boolean isShielded) {
 		this.isShielded = isShielded;
 	}
+
+	public String getLastCrawlerDate() {
+		return lastCrawlerDate;
+	}
+
+	public void setLastCrawlerDate(String lastCrawlerDate) {
+		this.lastCrawlerDate = lastCrawlerDate;
+	}
+	
+	
 	
 	
 	

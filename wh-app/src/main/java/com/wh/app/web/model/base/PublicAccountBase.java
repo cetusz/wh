@@ -10,6 +10,8 @@ public class PublicAccountBase extends BaseEntityPrimaryKey implements Serializa
 	private static final long serialVersionUID = 1L;
 	//微信公众账号ID
 	private String accountId;
+	//头像地址
+	private String headImg;
 	//中文名称
 	private String chineseName;
 	//功能简介
@@ -33,7 +35,13 @@ public class PublicAccountBase extends BaseEntityPrimaryKey implements Serializa
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
-
+	
+	public String getHeadImg() {
+		return headImg;
+	}
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
 	public String getFuncintro() {
 		return funcintro;
 	}

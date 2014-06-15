@@ -1,6 +1,7 @@
 package com.wh.app.web.model.base;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class EassayBase extends BaseEntityPrimaryKey implements Serializable{
 	/**
@@ -19,8 +20,14 @@ public class EassayBase extends BaseEntityPrimaryKey implements Serializable{
 	private String contentUrl;
 	//分类ID
 	private Long categoryId;
+	//分类名称
+	private String categoryName;
 	//公众账号id
 	private Long accountId;
+	//公众账号名称
+	private String accountName;
+	//发布日期
+	private Date pubDate;
 	public String getSourceId() {
 		return sourceId;
 	}
@@ -63,5 +70,25 @@ public class EassayBase extends BaseEntityPrimaryKey implements Serializable{
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getAccountName() {
+		return accountName;
+	}
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+	public Date getPubDate() {
+		return pubDate;
+	}
+	public void setPubDate(Date pubDate) {
+		this.pubDate = pubDate;
+	}
+	
+	
 	
 }

@@ -16,7 +16,7 @@ public class PublicAccountEditMapperImpl extends AbstractBaseMapper<PublicAccoun
 
 	@Override
 	public String getSqlNamespace() {
-		return "com.wh.app.web.mapper.edit.PublicAccoutEditMapper";
+		return "com.wh.app.web.mapper.edit.PublicAccountEditMapper";
 	}
 
 

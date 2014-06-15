@@ -31,8 +31,28 @@ public class Generator {
 		};
 		printConfig(cols);
 	}
+	
+	private static void printEasay(){
+		String[] cols ={
+				"id",
+				"sourceId",
+				"title",
+				"content",
+				"intro",
+				"contentUrl",
+				"categoryId",
+				"categoryName",
+				"accountId",
+				"accountName",
+				"openId",
+				"isRecommanded",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
 	public static void main(String[] args) {
-		generateAccount();
+		printEasay();
 	}
 	
 	private static void printConfig(String[] cols){

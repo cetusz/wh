@@ -1,6 +1,33 @@
-var common = {};
-(function(){
+(function(_win){
+	_win.common = {};
 	//添加tab方法
+	common.addTab = function(subtitle, url, icon) {
+		var jq = top.jQuery;
+		var createFrame = function(url) {
+				var s = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+				return s;
+		};
+		if (!jq('#tabs').tabs('exists', subtitle)) {
+			jq('#tabs').tabs('add', {
+				title : subtitle,
+				content : createFrame(url),
+				closable : true,
+				icon : icon
+			});
+		} else {
+			$.messager.confirm('Confirm', subtitle+'页面已经存在，确认覆盖吗?', function(r){
+				if (r){
+					jq('#tabs').tabs('close', subtitle);
+					jq('#tabs').tabs('add', {
+						title : subtitle,
+						content : createFrame(url),
+						closable : true,
+						icon : icon
+					});
+				}
+			});
+		}
+	};
 	common.addTabs = function(subtitle, url, icon) {
 			var jq = top.jQuery;
 			var createFrame = function(url) {
@@ -168,4 +195,4 @@ var common = {};
 		array.push(this.formatDate(lastdayofPreWeek));
 		return array;
 	};
-})();
+})(window);
