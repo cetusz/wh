@@ -76,6 +76,12 @@
 		<artifactId>thumbnailator</artifactId>
 		<version>0.4.7</version>
 	</dependency>
+	
+	   <dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.dom4j.dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
 		
 		 <dependency>
 			<groupId>org.jsoup</groupId>

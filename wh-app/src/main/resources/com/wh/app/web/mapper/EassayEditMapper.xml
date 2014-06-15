@@ -20,12 +20,28 @@
 		<result property="createTime" column="createTime"/>
 		<result property="lastUpdateTime" column="lastUpdateTime"/>
     </resultMap>
+    
+       <resultMap type="EassayEdit" id="pageresultMap">
+		 <result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="contentUrl" column="contentUrl"/>
+		<result property="categoryId" column="categoryId"/>
+		<result property="categoryName" column="categoryName"/>
+		<result property="accountId" column="accountId"/>
+		<result property="accountName" column="accountName"/>
+		<result property="pubDate" column="pubDate"/>
+    </resultMap>
 
 		
 	<sql id="select_columns">
 		t.id,  t.sourceId,  t.title,  t.content, t.pubDate, t.intro,  t.contentUrl,  t.categoryId,  t.categoryName,  t.accountId,  t.accountName,  t.openId,  t.isRecommanded,  t.createTime,  t.lastUpdateTime
     </sql>
 	
+	<sql id="select_page_columns">
+		t.id,  t.title,t.pubDate, t.intro,  t.contentUrl,  t.categoryId,  t.categoryName,  t.accountId,  t.accountName
+    </sql>
+    
+    
 	<insert id="save" parameterType="PublicAccountEdit" 
 		useGeneratedKeys="true" keyProperty="id">
 		 <![CDATA[
@@ -115,11 +131,14 @@
 	</sql>
 	
 	<!-- 分页查询 -->	
-	<select id="getPageList" resultMap="resultMap" parameterType="java.util.Map">
+	<select id="getPageList" resultMap="pageresultMap" parameterType="java.util.Map">
 		SELECT 
-		<include refid="select_columns"/>
+		<include refid="select_page_columns"/>
 		FROM t_eassay_edit t
 		<include refid="page_where_sql"/>
+		<if test = "tableSorts!=null and tableSorts != ''">
+		   order by ${tableSorts}
+		</if>
 	</select>
   
   	<!-- 查询字段  -->

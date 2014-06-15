@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coship.cap.video.live.mapper.PublicAccountEditMapper">
+<mapper namespace="com.wh.app.web.mapper.edit.PublicAccountEditMapper">
 	
    <resultMap type="PublicAccountEdit" id="resultMap">
     <result property="id" column="id"/>
 	<result property="accountId" column="accountId"/>
+	<result property="headImg" column="headImg"/>
 	<result property="chineseName" column="chineseName"/>
 	<result property="funcintro" column="funcintro"/>
 	<result property="wxcredit" column="wxcredit"/>
@@ -13,25 +14,27 @@
 	<result property="isCrawler" column="isCrawler"/>
 	<result property="qrCodeUrl" column="qrCodeUrl"/>
 	<result property="cateIds" column="cateIds"/>
+	<result property="cateNames" column="cateNames"/>
 	<result property="bizId" column="bizId"/>
 	<result property="isShielded" column="isShielded"/>
 	<result property="createTime" column="createTime"/>
 	<result property="lastUpdateTime" column="lastUpdateTime"/>
+	<result property="lastCrawlerDate" column="lastCrawlerDate"/>
 	<result property="version" column="version"/>
     </resultMap>
 
 		
 	<sql id="select_columns">
-		t.id,  t.accountId,  t.chineseName,  t.funcintro,  t.wxcredit,  t.sinacredit,  t.isCrawler,  t.qrCodeUrl,  t.cateIds,  t.bizId,  t.isShielded,  t.createTime,  t.lastUpdateTime,  t.version
+		t.id,  t.accountId, t.headImg, t.chineseName,  t.funcintro,  t.wxcredit,  t.sinacredit,  t.isCrawler,  t.qrCodeUrl,  t.cateIds,  t.bizId,  t.isShielded,  t.createTime,  t.lastUpdateTime, t.lastCrawlerDate, t.version,t.cateNames
     </sql>
 	
 	<insert id="save" parameterType="PublicAccountEdit" 
 		useGeneratedKeys="true" keyProperty="id">
 		 <![CDATA[
 			 INSERT INTO t_public_account_edit(
-				accountId,  chineseName,  funcintro,  wxcredit,  sinacredit,  isCrawler,  qrCodeUrl,  cateIds,  bizId,  isShielded,  createTime,  lastUpdateTime,  version
+				accountId,  chineseName, headImg ,funcintro,  wxcredit,  sinacredit,  isCrawler,  qrCodeUrl,  cateIds,  bizId,  isShielded,  createTime,  lastUpdateTime,  version,lastCrawlerDate,cateNames
 			 )VALUES(
-			 	#{accountId},  #{chineseName},  #{funcintro},  #{wxcredit},  #{sinacredit},  #{isCrawler},  #{qrCodeUrl},  #{cateIds},  #{bizId},  #{isShielded},  #{createTime},  #{lastUpdateTime},  #{version}
+			 	#{accountId},  #{chineseName}, #{headImg},  #{funcintro},  #{wxcredit},  #{sinacredit},  #{isCrawler},  #{qrCodeUrl},  #{cateIds},  #{bizId},  #{isShielded},  #{createTime},  #{lastUpdateTime},  #{version},#{lastCrawlerDate},#{cateNames}
 			 )
 		 ]]>
 	</insert>
@@ -41,16 +44,19 @@
         <set>
 	        <if test="accountId!= null and accountId!= ''" >t.accountId=#{accountId},</if>
 			<if test="chineseName!= null and chineseName!= ''" >t.chineseName=#{chineseName},</if>
+			<if test="headImg!= null and headImg!= ''" >t.headImg=#{headImg},</if>
 			<if test="funcintro!= null and funcintro!= ''" >t.funcintro=#{funcintro},</if>
 			<if test="wxcredit!= null and wxcredit!= ''" >t.wxcredit=#{wxcredit},</if>
 			<if test="sinacredit!= null and sinacredit!= ''" >t.sinacredit=#{sinacredit},</if>
 			<if test="isCrawler!= null and isCrawler!= ''" >t.isCrawler=#{isCrawler},</if>
 			<if test="qrCodeUrl!= null and qrCodeUrl!= ''" >t.qrCodeUrl=#{qrCodeUrl},</if>
 			<if test="cateIds!= null and cateIds!= ''" >t.cateIds=#{cateIds},</if>
+			<if test="cateNames!= null and cateNames!= ''" >t.cateNames=#{cateNames},</if>
 			<if test="bizId!= null and bizId!= ''" >t.bizId=#{bizId},</if>
 			<if test="isShielded!= null and isShielded!= ''" >t.isShielded=#{isShielded},</if>
 			<if test="createTime!= null and createTime!= ''" >t.createTime=#{createTime},</if>
 			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" >t.lastUpdateTime=#{lastUpdateTime},</if>
+			<if test="lastCrawlerDate!= null and lastCrawlerDate!= ''" >t.lastCrawlerDate=#{lastCrawlerDate},</if>
 			<if test="version!= null and version!= ''" >t.version=#{version},</if>
 		</set> 
 		WHERE id = #{id}
@@ -64,7 +70,7 @@
 	
 	
 	<!-- 多行删除 -->
-     <delete id="deleteMulti"  parameterType="List">
+     <delete id="deleteMutil"  parameterType="List">
    		delete from t_public_account_edit 
    		<where>
 			<if test="list != null and list != ''">
@@ -75,6 +81,19 @@
 			</if>
 		</where>
    </delete>
+   
+   
+   <update id="setTypeMutil" parameterType="Map" >
+     update t_public_account_edit set cateIds = #{typeId} 
+	      <where>
+				<if test="ids != null and ids != ''">
+					 id in 
+					<foreach collection="ids" item="key" open=" ( " close=" ) " separator=",">
+						#{key}
+					</foreach>
+				</if>
+			</where>
+   </update>
    
 
 	<!-- 对象查询 -->
@@ -105,6 +124,7 @@
 			<if test="isCrawler!= null and isCrawler!= ''" > AND t.isCrawler=#{isCrawler}</if>
 			<if test="qrCodeUrl!= null and qrCodeUrl!= ''" > AND t.qrCodeUrl=#{qrCodeUrl}</if>
 			<if test="cateIds!= null and cateIds!= ''" > AND t.cateIds=#{cateIds}</if>
+			<if test="cateNames!= null and cateNames!= ''" > AND t.cateNames=#{cateNames}</if>
 			<if test="bizId!= null and bizId!= ''" > AND t.bizId=#{bizId}</if>
 			<if test="isShielded!= null and isShielded!= ''" > AND t.isShielded=#{isShielded}</if>
 			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
@@ -127,11 +147,12 @@
 			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
 			<if test="AccountEdit!= null and AccountEdit!= ''" > AND t.AccountEdit=#{AccountEdit}</if>
 			<if test="accountId!= null and accountId!= ''" > AND t.accountId=#{accountId}</if>
-			<if test="chineseName!= null and chineseName!= ''" > AND t.chineseName=#{chineseName}</if>
+			<if test="chineseName!= null and chineseName!= ''" > AND t.chineseName LIKE CONCAT('%',#{chineseName},'%')</if>
 			<if test="intro!= null and intro!= ''" > AND t.intro=#{intro}</if>
 			<if test="isCrawler!= null and isCrawler!= ''" > AND t.isCrawler=#{isCrawler}</if>
 			<if test="qrCodeUrl!= null and qrCodeUrl!= ''" > AND t.qrCodeUrl=#{qrCodeUrl}</if>
 			<if test="cateIds!= null and cateIds!= ''" > AND t.cateIds=#{cateIds}</if>
+				<if test="cateNames!= null and cateNames!= ''" > AND t.cateNames=#{cateNames}</if>
 			<if test="version!= null and version!= ''" > AND t.version=#{version}</if>
 			<if test="bizId!= null and bizId!= ''" > AND t.bizId=#{bizId}</if>
 		</where>

@@ -47,7 +47,7 @@
 	
 	<mvc:interceptors>  
 	     <mvc:interceptor>
-	        <mvc:mapping path="/admin/*"/>
+	        <mvc:mapping path="/admin/**"/>
     		<bean class="com.wh.app.web.intercepters.LoginIntercepter" /> 
 	     </mvc:interceptor>
 	</mvc:interceptors>  
@@ -57,23 +57,12 @@
 	<!-- 按类名处理 -->
 	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 	
+	<!-- Only needed because we require fileupload in the org.springframework.samples.mvc.fileupload package -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 		
 	<!-- 注解mapping	-->
 	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 	</bean>					 
-
-
-	<!-- 总错误处理-->  
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
-		<property name="defaultErrorView" value="error/error" />    
-		<property name="defaultStatusCode" value="500" /> 
-		<property name="exceptionMappings">  
-    		<props>  
-      		  <prop key="java.lang.Exception">/error/error</prop>  
-    		</props>  
-		</property>        
-		<property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />     
-	</bean>
 	
 	<!-- Imports user-defined @Controller beans that process client requests -->
 	<import resource="spring-mvc-controllers.xml" />
