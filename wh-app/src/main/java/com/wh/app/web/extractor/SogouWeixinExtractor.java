@@ -28,7 +28,7 @@ import com.wh.app.web.model.query.EassayEditQuery;
 import com.wh.app.web.service.edit.EassayEditService;
 import com.wh.app.web.service.edit.PublicAccountEditService;
 
-@Component("SogouWeixinExtractor")
+@Component("eassayExtractor")
 public class SogouWeixinExtractor {
 	Logger logger = Logger.getLogger(SogouWeixinExtractor.class);
 	@Autowired EassayEditService eassayEditService;
@@ -51,7 +51,7 @@ public class SogouWeixinExtractor {
 					logger.error("put failure",e);
 				}
 			}
-			ExecutorService  executor =Executors.newFixedThreadPool(5);
+			ExecutorService  executor =Executors.newCachedThreadPool();
 			executor.execute(new Runnable(){
 				@Override
 				public void run() {

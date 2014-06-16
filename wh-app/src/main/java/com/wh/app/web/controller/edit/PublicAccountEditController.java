@@ -166,7 +166,12 @@ public class PublicAccountEditController {
 	public @ResponseBody Map<String,Object> setType(String accountIds,String typeId){
 		Map<String,Object> result = new HashMap<String,Object>();
 		try{
-			
+			String[] idsArray = accountIds.split(",");
+			List<Long> ids = new ArrayList<Long>();
+			for(String id:idsArray){
+				ids.add(Long.valueOf(id));
+			}
+			publicAccountEditService.setTypeMutil(ids, typeId);
 			result.put("success", true);
 		}catch(Exception ex){
 			result.put("success", false);
