@@ -1,21 +1,16 @@
 package com.wh.app.web.controller.pub;
 
-<<<<<<< HEAD
-=======
+
 import java.util.HashMap;
 import java.util.Map;
 
->>>>>>> develop
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
->>>>>>> develop
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wh.app.web.model.pub.UserEntity;
@@ -35,8 +30,7 @@ public class LoginController {
 		return mv;
 	}
 	
-<<<<<<< HEAD
-=======
+
 	@RequestMapping(value="finduser",method=RequestMethod.POST,produces ={"application/json;charset=UTF-8"})
 	public @ResponseBody Map<String,Object> finduser(String userName,String password){
 		UserEntity entity = userService.login(userName, password);
@@ -50,7 +44,7 @@ public class LoginController {
 			
 	}
 	
->>>>>>> develop
+
 	@RequestMapping("/tologin")
 	public ModelAndView tologin(){
 		ModelAndView mv = new ModelAndView();
@@ -58,8 +52,7 @@ public class LoginController {
 		return mv;
 	}
 
-<<<<<<< HEAD
-=======
+
 	
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpServletRequest request){
@@ -68,5 +61,5 @@ public class LoginController {
 		mv.setViewName("login");
 		return mv;
 	}
->>>>>>> develop
+
 }
