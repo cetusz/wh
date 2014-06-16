@@ -250,18 +250,22 @@
 	}
 	
 	function save_set_type(){
-	      var rows = $("#category_list_data").datagrid("getSelections");
-	      var cateIds = '';
-	      //选择要删除的行
+	      var rows = $("#list_data").datagrid("getSelections");
+	      var typeId = $("#category_list_data").datagrid("getSelections")[0].id;
+	      var accountIds = '';
+	      //选择要设置分类的行
 	      if (rows.length > 0) {
 	          $.messager.confirm("提示", "你确定要设置吗?", function (r) {
-	        	  cateIds += rows.id;
+	        	  accountIds += rows.id;
 	          });
-	          $.post(url,function(data){});
+	          $.post("<%=path%>/admin/publicaccountedit/settype",{accountIds:accountIds,typeId:typeId},function(data){
+	        	  $.messager.alert("提示",'设置成功!',"info");
+	          });
 	      }
 		
 	}
 	
+	//关闭设置分类的窗口
 	function close_set_type(){
 		$("#set_type_window").window("close");
 	}
