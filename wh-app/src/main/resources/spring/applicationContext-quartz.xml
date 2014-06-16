@@ -23,7 +23,7 @@
 	</bean>
 	
 	<!-- 下面为时间运营环境使用  -->
-	<bean id="PPTVExtractorSERVICETrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	<bean id="EASSAYExtractorSERVICETrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="EASSAYExtractorSERVICE" />		
 		<property name="cronExpression">
                 <value>0 0 0/2 * * ?</value>
@@ -35,7 +35,7 @@
 		<property name="autoStartup" value="true" />
 		<property name="triggers">
 			<list>
-				<ref local="PPTVExtractorSERVICETrigger" />
+			  <ref local="EASSAYExtractorSERVICETrigger"/>
 			</list>
 		</property>
 	</bean>
