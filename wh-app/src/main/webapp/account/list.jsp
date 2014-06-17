@@ -87,7 +87,7 @@
 							return '<a href=#>'+value+'</a>';
 						}
 						},
-						{field:'cateIds',title:'分类',align:'center',width:150,
+						{field:'cateNames',title:'分类',align:'center',width:150,
 					},
 					{field:'bizId',title:'bizId',align:'center'},
 					{field:'isShielded',title:'是否屏蔽',align:'center',width:100,
