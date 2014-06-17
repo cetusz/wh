@@ -245,7 +245,6 @@
 	
 	
 	function closeupload(){
-		$("#myfiles").val('');
 		$('#uploadfileDiv').window('close');
 	}
 	
