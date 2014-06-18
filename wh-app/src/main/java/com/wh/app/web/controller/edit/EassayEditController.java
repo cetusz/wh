@@ -1,6 +1,8 @@
 package com.wh.app.web.controller.edit;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +47,22 @@ public class EassayEditController {
 		 resultMap.put("total", pager.getTotal());
 		 resultMap.put("rows", pager.getResult());
 		 return resultMap;
+	}
+	
+	@RequestMapping(value="del",produces={"application/json;charset=UTF-8"})
+	public @ResponseBody Map<String,Object> del(String ids){
+		Map<String,Object> result = new HashMap<String,Object>();
+		try{
+			String[] array = ids.split(",");
+			List<Long> idlist = new ArrayList<Long>();
+			for(String id:array){
+				idlist.add(Long.valueOf(id));
+			}
+			eassayEditService.deleteMulti(idlist);
+			result.put("success", true);
+		}catch(Exception ex){
+			result.put("success", false);
+		}
+		return result;
 	}
 }
