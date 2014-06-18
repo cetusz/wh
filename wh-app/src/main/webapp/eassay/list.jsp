@@ -27,6 +27,7 @@
 		    <div style="margin-bottom:5px">
 		    	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="crawler()">新增</a>
 		    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="update()">修改</a>
+		    	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="del()">删除</a>
 			</div>
 		    <div>
 				公众账号名称:<input class="easyui-text" style="width: 150px"
@@ -49,7 +50,7 @@
 							return '<a href=#>'+value+'</a>';
 						}
 						},
-						{field:'categroyName',title:'分类名称',align:'center',width:150},
+						{field:'categoryName',title:'分类名称',align:'center',width:150},
 					{field:'accountName',title:'所属公众账户',align:'center'},
 					{field:'pubDate',title:'发布日期',align:'center',width:100,formatter:function(value,row,index){
 						return formatDatebox(value);
@@ -62,13 +63,28 @@
 			//绑定用户点击事件
 			$('#list_data').datagrid({
 				    onClickCell: function(index,field,value){
-					      if(field == "title"){
-					    	  showDetail(index,field,value);
+					      if(field == "contentUrl"){
+					    	  //showDetail(index,field,value);
+					    	  window.open(value);
 					      }else if(field == "edit"){
 					    	  showDetail(index,field,value);
 					      }
 					 }
 			});
   });
+  
+  function del(){
+	  var rows = $("#list_data").datagrid('getSelections');
+	  var idArray = [];
+	  for(var i=0,len=rows.length;i<len;i++){
+		  idArray.push(rows[i].id);
+	  }
+	  
+	  $.post("<%=path%>/admin/eassay/del",{ids:idArray.toString()},function(data){
+		  $("#list_data").datagrid('load');
+		  
+	  });
+	  
+  }
   </script>
 </html>
