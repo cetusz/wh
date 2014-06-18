@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -22,9 +24,11 @@ import org.springframework.stereotype.Component;
 
 import com.my.common.util.Dom4jUtil;
 import com.my.common.util.HttpUtils;
+import com.wh.app.web.model.edit.CategoryEdit;
 import com.wh.app.web.model.edit.EassayEdit;
 import com.wh.app.web.model.edit.PublicAccountEdit;
 import com.wh.app.web.model.query.EassayEditQuery;
+import com.wh.app.web.service.edit.CategoryEditService;
 import com.wh.app.web.service.edit.EassayEditService;
 import com.wh.app.web.service.edit.PublicAccountEditService;
 
@@ -33,13 +37,16 @@ public class SogouWeixinExtractor {
 	Logger logger = Logger.getLogger(SogouWeixinExtractor.class);
 	@Autowired EassayEditService eassayEditService;
 	@Autowired PublicAccountEditService accountEditService;
+	@Autowired CategoryEditService categoryEditService;
 	
 	String pageUrl =  "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=%s&page=%d&t=%d";
 	String entry = "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=%s";
 	public static boolean isRunning = false;
+	private static Map<String,Long> categoryMap = new HashMap<String,Long>();
 	public void execute(){
 		if(!isRunning){
 			isRunning = true;
+			initCategories();
 			//数量不多时可以全取
 			List<PublicAccountEdit> accounts = accountEditService.selectList(null, null);
 			List<PublicAccountEdit> list = Collections.synchronizedList(accounts);
@@ -74,6 +81,13 @@ public class SogouWeixinExtractor {
 			//for(PublicAccountEdit account:accounts){
 			//	extractEassay(account);
 			//}
+		}
+	}
+	
+	public void initCategories(){
+		List<CategoryEdit> categories = categoryEditService.selectList(null, null);
+		for(CategoryEdit edit:categories){
+			categoryMap.put(edit.getCateName(), edit.getId());
 		}
 	}
 	
@@ -139,11 +153,9 @@ public class SogouWeixinExtractor {
 							eassay.setPubDate(dateTime);
 						}
 						eassay.setSourceId(sourceId);
+						setEassayType(eassay,account);
 						eassayEditService.saveOrUpdate(eassay);
 					}
-					//System.out.println(display.elementText("title1"));
-					//System.out.println(display.elementText("imglink"));
-	
 				}
 			} catch (JSONException e) {
 				logger.error(e);
@@ -161,6 +173,35 @@ public class SogouWeixinExtractor {
 		accountEditService.saveOrUpdate(account);
 		logger.info(account.getChineseName()+" finished");
 		isRunning = false;
+	}
+	
+	private void setEassayType(EassayEdit edit,PublicAccountEdit account){
+		if(StringUtils.isNotEmpty(edit.getTitle())){
+			for(String key:categoryMap.keySet()){
+				if(edit.getTitle().indexOf(key)>-1){
+					edit.setCategoryName(key);
+					edit.setCategoryId(categoryMap.get(key));
+					break;
+				}
+			}
+		}
+		//文章简介中是否有相关信息
+		if(StringUtils.isEmpty(edit.getCategoryName())){
+			if(StringUtils.isNotEmpty(edit.getIntro())){
+				for(String key:categoryMap.keySet()){
+					if(edit.getIntro().indexOf(key)>-1){
+						edit.setCategoryName(key);
+						edit.setCategoryId(categoryMap.get(key));
+						break;
+					}
+				}
+			}
+		}
+		//如果找不到分类就默认的设公众账号的分类
+		if(StringUtils.isEmpty(edit.getCategoryName())){
+			edit.setCategoryName(account.getCateNames());
+			edit.setCategoryId(categoryMap.get(account.getCateNames()));
+		}
 	}
 	
 	private Date parseDate(String dateValue) throws ParseException{
