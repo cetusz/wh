@@ -165,12 +165,12 @@
 			<artifactId>paoding-analysis</artifactId> 
 			<version>2.0.4</version> 
 		</dependency> 
-		
+		  <!--  
 		 <dependency>
             <groupId>IKAnalyzer</groupId>
             <artifactId>IKAnalyzer</artifactId>
             <version>3.2.3</version>
-        </dependency>
+        </dependency>-->
 		<!-- lucene -->
   </dependencies>
   <build>
