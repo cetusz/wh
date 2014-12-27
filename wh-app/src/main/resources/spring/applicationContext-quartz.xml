@@ -26,18 +26,42 @@
 	<bean id="EASSAYExtractorSERVICETrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="EASSAYExtractorSERVICE" />		
 		<property name="cronExpression">
-                <value>0 0 0/2 * * ?</value>
+                <value>${extract-time}</value>
         </property>
 	</bean>	
 
 	<!-- ######## 总调配中心  ########## -->
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="autoStartup" value="true" />
 		<property name="triggers">
 			<list>
 			  <ref local="EASSAYExtractorSERVICETrigger"/>
+		 <!--
+			    <ref local="simpleTrigger"/>	--> 
 			</list>
 		</property>
 	</bean>
-    	
+	<!--  
+    <bean name="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+	    <property name="jobClass" value="com.wh.app.web.extractor.SogouWeixinExtractor" />
+	    <property name="jobDataAsMap">
+        <map>
+             <entry key="isRunning" value="false" />
+        </map>
+        </property>
+	    <property name="applicationContextJobDataKey" value="applicationContext"/>
+     </bean>
+     
+     <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		    <property name="jobDetail" ref="jobDetail" />
+		    <property name="startDelay" value="10000" />
+		    <property name="repeatInterval" value="200000" />
+		    <property name="jobDataAsMap"> 
+		        <map>
+		            <entry key="isRunning" value="false" />
+		        </map>
+		    </property>
+     </bean>
+     -->
 </beans>

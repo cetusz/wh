@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.app.web.mapper.pub.SearchRecordMapper">
+	
+   <resultMap type="SearchRecord" id="resultMap">
+		<result property="id" column="id"/>
+		<result property="deviceId" column="deviceId"/>
+		<result property="keyWord" column="keyWord"/>
+		<result property="searchCounts" column="searchCounts"/>
+		<result property="createTime" column="createTime"/>
+		<result property="lastUpdateTime" column="lastUpdateTime"/>
+    </resultMap>
+
+		
+	<sql id="select_columns">
+	t.id,  t.deviceId,  t.keyWord,  t.searchCounts,  t.createTime,  t.lastUpdateTime
+    </sql>
+	
+	<insert id="save" parameterType="SearchRecord" 
+		useGeneratedKeys="true" keyProperty="id">
+		 <![CDATA[
+			 INSERT INTO t_search_record(
+				 deviceId,  keyWord,  searchCounts,  createTime,  lastUpdateTime
+			 )VALUES(
+			 	  #{deviceId},  #{keyWord},  #{searchCounts},  now(),  now()
+			 )
+		 ]]>
+	</insert>
+	
+    <update id="update" parameterType="SearchRecord" flushCache="true">
+        UPDATE t_search_record t
+        <set>
+			<if test="id!= null and id!= ''" >t.id=#{id},</if>
+			<if test="deviceId!= null and deviceId!= ''" >t.deviceId=#{deviceId},</if>
+			<if test="keyWord!= null and keyWord!= ''" >t.keyWord=#{keyWord},</if>
+			<if test="searchCounts!= null and searchCounts!= ''" >t.searchCounts=#{searchCounts},</if>
+			<if test="createTime!= null and createTime!= ''" >t.createTime=#{createTime},</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" >t.lastUpdateTime=#{lastUpdateTime},</if>
+		</set> 
+		WHERE id = #{id}
+ 	</update>
+	
+	<!-- 主键删除 -->
+	<delete id="deleteOne" flushCache="true" parameterType="Long">
+		DELETE FROM t_search_record WHERE id = #{id}
+	</delete>
+
+	
+	
+	<!-- 多行删除 -->
+     <delete id="deleteMulti"  parameterType="List">
+   		delete from t_search_record
+   		<where>
+			<if test="list != null and list != ''">
+				 id in 
+				<foreach collection="list" item="key" open=" ( " close=" ) " separator=",">
+					#{key}
+				</foreach>
+			</if>
+		</where>
+   </delete>
+   
+
+	<!-- 对象查询 -->
+	<select id="findOne" resultMap="resultMap" parameterType="Long">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_search_record t
+		WHERE t.id = #{id}
+	</select>
+
+	<!-- list分页查询 -->
+	<select id="selectList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_search_record t
+		<include refid="select_where_sql"/>
+	</select>
+
+	<!-- 查询字段  -->
+	<sql id="select_where_sql">
+		<where>
+			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
+			<if test="deviceId!= null and deviceId!= ''" > AND t.deviceId=#{deviceId}</if>
+			<if test="keyWord!= null and keyWord!= ''" > AND t.keyWord=#{keyWord}</if>
+			<if test="searchCounts!= null and searchCounts!= ''" > AND t.searchCounts=#{searchCounts}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询 -->	
+	<select id="getPageList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_search_record t
+		<include refid="page_where_sql"/>
+	</select>
+  
+  	<!-- 查询字段  -->
+	<sql id="page_where_sql">
+		<where>
+			<if test="deviceId!= null and deviceId!= ''" > AND t.deviceId=#{deviceId}</if>
+			<if test="keyWord!= null and keyWord!= ''" > AND t.keyWord=#{keyWord}</if>
+			<if test="searchCounts!= null and searchCounts!= ''" > AND t.searchCounts=#{searchCounts}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+		</where>
+	</sql>
+
+</mapper>

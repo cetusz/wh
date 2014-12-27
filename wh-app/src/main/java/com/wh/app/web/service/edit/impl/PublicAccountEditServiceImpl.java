@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.my.common.domain.Query;
 import com.my.mybatis.support.Page;
@@ -13,6 +14,7 @@ import com.wh.app.web.model.edit.PublicAccountEdit;
 import com.wh.app.web.service.edit.PublicAccountEditService;
 
 @Service
+@Transactional
 public class PublicAccountEditServiceImpl implements PublicAccountEditService {
 
 	@Autowired PublicAccountEditMapper publicAccountEditMapper;
@@ -48,8 +50,8 @@ public class PublicAccountEditServiceImpl implements PublicAccountEditService {
 	}
 
 	@Override
-	public void setTypeMutil(List<Long> ids, String typeId) {
-		publicAccountEditMapper.setAccountType(ids, typeId);
+	public void setTypeMutil(List<Long> ids, String typeId,String typeName) {
+		publicAccountEditMapper.setAccountType(ids, typeId,typeName);
 	}
 
 }

@@ -9,7 +9,7 @@
    <context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:spring/applicationContext-mysql.xml
+			classpath:spring/applicationContext-mysql.xml,classpath:spring/applicationContext-quartz.xml
 		</param-value>
 	</context-param>
 

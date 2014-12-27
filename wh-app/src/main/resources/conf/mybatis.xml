@@ -20,6 +20,11 @@
 		<mapper resource="com/wh/app/web/mapper/PublicAccountEditMapper.xml" />
 		<mapper resource="com/wh/app/web/mapper/EassayEditMapper.xml" />
 		<mapper resource="com/wh/app/web/mapper/CategoryEditMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/MemberMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/FollowMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/CollectionMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/SearchRecordMapper.xml" />
+		<mapper resource="com/wh/app/web/mapper/RecommendMapper.xml" />
 	</mappers>
 </configuration>
 

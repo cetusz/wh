@@ -63,8 +63,83 @@ public class Generator {
 		};
 		printConfig(cols);
 	}
+	
+	private static void printRecommend(){
+		String[] cols ={
+				"id",
+				"title",
+				"content",
+				"intro",
+				"contentUrl",
+				"categoryId",
+				"categoryName",
+				"accountId",
+				"accountName",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	
+	private static void genernateMember(){
+		String[] cols ={
+				"id",
+				"deviceId",
+				"macAddress",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	
+	private static void genernateCollection(){
+		String[] cols = {
+				"id",
+				"deviceId",
+				"docId",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	
+	private static void printFollow(){
+		String[] cols =  {
+				"id",
+				"deviceId",
+				"accountId",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	
+	private static void printSearchRecord(){
+		String[] cols =  {
+				"id",
+				"deviceId",
+				"keyWord",
+				"searchCounts",
+				"createTime",
+				"lastUpdateTime"
+		};
+		printConfig(cols);
+	}
+	
+	
 	public static void main(String[] args) {
-		generateCate();
+		//printRecommend();
+		//flag:
+		    boolean flag = false;
+		    for(int i=0;i<10&&!flag;i++){
+		    	for(int j=0;j<10;j++){
+		    		if(i==5&&j==9){
+		    			flag=true;
+		    		}
+		    	}
+		    }
+		   System.out.println(Generator.class.getClassLoader().toString());
+	   System.out.println("execute finished");
 	}
 	
 	private static void printConfig(String[] cols){

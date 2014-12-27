@@ -7,5 +7,5 @@ import com.wh.app.web.service.BaseService;
 
 public interface PublicAccountEditService extends BaseService<PublicAccountEdit> {
 
-	public void setTypeMutil(List<Long> ids,String typeId);
+	public void setTypeMutil(List<Long> ids,String typeId,String typeName);
 }

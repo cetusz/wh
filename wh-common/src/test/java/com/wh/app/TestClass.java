@@ -1,10 +1,16 @@
 package com.wh.app;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+
+//import net.paoding.analysis.analyzer.PaodingAnalyzer;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
@@ -14,6 +20,23 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+//import org.apache.lucene.analysis.Analyzer;
+//import org.apache.lucene.analysis.standard.StandardAnalyzer;
+//import org.apache.lucene.document.Field;
+//import org.apache.lucene.index.IndexReader;
+//import org.apache.lucene.index.IndexWriter;
+//import org.apache.lucene.index.IndexWriterConfig;
+//import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+//import org.apache.lucene.queryParser.ParseException;
+//import org.apache.lucene.queryParser.QueryParser;
+//import org.apache.lucene.search.IndexSearcher;
+//import org.apache.lucene.search.Query;
+//import org.apache.lucene.search.ScoreDoc;
+//import org.apache.lucene.search.TopDocs;
+//import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+//import org.apache.lucene.store.Directory;
+//import org.apache.lucene.store.FSDirectory;
+//import org.apache.lucene.util.Version;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,6 +44,7 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import com.my.common.util.HttpUtils;
+
 
 public class TestClass {
 
@@ -120,10 +144,103 @@ public class TestClass {
 	@Test
 	public void testSogou(){
 		String url = "http://weixin.sogou.com/gzhjs?cb=sogou.weixin.gzhcb&openid=oIWsFtxEOaH_uvcGuOmNIfoVLBQ0&page=1&t=1402489723418";
-		String content = HttpUtils.getInstance().doGet(url, "utf-8",null);
+		String content = HttpUtils.getInstance().doGet(url, "utf-8",null, "");
 		String json = content.substring(content.indexOf("(")+1,content.lastIndexOf(")"));
 		System.out.println(json);
 		
 	}
+	
+//	@Test
+//	public void testLucene() throws IOException{
+//        File fileDir = new File("F:\\source");    
+//    
+//        /* 这里放索引文件的位置 */    
+//        File indexDir = new File("F:\\index");    
+//        Directory dir = FSDirectory.open(indexDir);  
+//        Analyzer luceneAnalyzer = new PaodingAnalyzer(); 
+//        IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_35,luceneAnalyzer);  
+//        iwc.setOpenMode(OpenMode.CREATE);  
+//        IndexWriter indexWriter = new IndexWriter(dir,iwc);    
+//        File[] textFiles = fileDir.listFiles();    
+//        long startTime = new Date().getTime();    
+//            
+//        //增加document到索引去    
+//        for (int i = 0; i < textFiles.length; i++) {    
+//            if (textFiles[i].isFile()    
+//                    && textFiles[i].getName().endsWith(".txt")) {    
+//                System.out.println("File " + textFiles[i].getCanonicalPath()    
+//                        + "正在被索引....");    
+//                String temp = FileReaderAll(textFiles[i].getCanonicalPath(),    
+//                        "GBK");    
+//                System.out.println(temp);    
+//                org.apache.lucene.document.Document document = new org.apache.lucene.document.Document();    
+//                Field FieldPath = new Field("path", textFiles[i].getPath(),    
+//                        Field.Store.YES, Field.Index.NO);    
+//                Field FieldBody = new Field("body", temp, Field.Store.YES,    
+//                        Field.Index.ANALYZED,    
+//                        Field.TermVector.WITH_POSITIONS_OFFSETS);    
+//                document.add(FieldPath);    
+//                document.add(FieldBody);    
+//                indexWriter.addDocument(document);    
+//            }    
+//        }    
+//        indexWriter.close();    
+//            
+//        //测试一下索引的时间    
+//        long endTime = new Date().getTime();    
+//        System.out    
+//                .println("这花费了"    
+//                        + (endTime - startTime)    
+//                        + " 毫秒来把文档增加到索引里面去!"    
+//                        + fileDir.getPath());    
+//    }    
+//    
+//    public  String FileReaderAll(String FileName, String charset)    
+//            throws IOException {    
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(    
+//                new FileInputStream(FileName), charset));    
+//        String line = new String();    
+//        String temp = new String();    
+//            
+//        while ((line = reader.readLine()) != null) {    
+//            temp += line;    
+//        }    
+//        reader.close();    
+//        return temp;    
+//    } 
+//    
+//    @Test
+//    public void testQuery() throws IOException{
+//    	 String index = "F:\\index";         //搜索的索引路径  
+//         IndexReader reader = IndexReader.open(FSDirectory.open(new File(index)));  
+//         IndexSearcher searcher = new IndexSearcher(reader);    
+//           
+//         ScoreDoc[] hits = null;    
+//         String queryString = "绝对秋香";   //搜索的关键词  
+//         Query query = null;    
+//           
+//     
+//         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_35);    
+//         try {    
+//             QueryParser qp = new QueryParser(Version.LUCENE_35,"body", analyzer);    
+//             query = qp.parse(queryString);    
+//         } catch (ParseException e) {    
+//         }    
+//         if (searcher != null) {    
+//             TopDocs results = searcher.search(query,10);    //返回最多为10条记录  
+//             hits = results.scoreDocs; 
+//             if (hits.length > 0) {    
+//                 System.out.println("找到:" + hits.length + " 个结果!");    
+//             }    
+//             for(ScoreDoc doc:hits){
+//            	 org.apache.lucene.document.Document targetDoc = searcher.doc(doc.doc);
+//            	 System.out.println(targetDoc.get("path"));
+//            	 SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<font color='red'><strong>", "</strong></font>"); 
+//             }
+//             searcher.close();  
+//         }   
+//          
+//     }    
 
-}
+	}
+

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.wh.app.web.extractor.SogouWeixinExtractor;
 import com.wh.app.web.model.edit.EassayEdit;
 import com.wh.app.web.model.query.EassayEditQuery;
 import com.wh.app.web.service.edit.EassayEditService;
+import com.wh.app.web.service.edit.RecommandBusiness;
 
 @Controller
 @RequestMapping("/admin/eassay")
@@ -25,6 +27,10 @@ public class EassayEditController {
 
 	@Autowired SogouWeixinExtractor sogouWeixinExtractor;
 	@Autowired EassayEditService eassayEditService;
+	@Autowired RecommandBusiness recommandBusiness;
+	Logger loger = Logger.getLogger(EassayEditController.class);
+	
+	
 	@RequestMapping(value="crawler")
 	public void crawler(){
 		sogouWeixinExtractor.execute();
@@ -39,7 +45,7 @@ public class EassayEditController {
 	
 	@RequestMapping(value="list",produces ={"application/json;charset=UTF-8"})
 	public @ResponseBody Map<String,Object> list(EassayEditQuery query,@RequestParam("page")int page,@RequestParam("rows")int rows){
-		Map<String,Object> resultMap = new HashMap<String,Object>();
+		 Map<String,Object> resultMap = new HashMap<String,Object>();
 		 Page<EassayEdit> pager = new Page<EassayEdit>(rows,page);
 		 Sort sort = new Sort();
 		 sort.setTableSort("pubDate",true);
@@ -62,6 +68,43 @@ public class EassayEditController {
 			result.put("success", true);
 		}catch(Exception ex){
 			result.put("success", false);
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="settype",produces={"application/json;charset=utf-8"})
+	public @ResponseBody Map<String,Object> setType(String accountIds,String typeId,String typeName){
+		Map<String,Object> result = new HashMap<String,Object>();
+		try{
+			String[] idsArray = accountIds.split(",");
+			List<Long> ids = new ArrayList<Long>();
+			for(String id:idsArray){
+				ids.add(Long.valueOf(id));
+			}
+			eassayEditService.setTypeMutil(ids,typeId,typeName);
+			result.put("success", true);
+		}catch(Exception ex){
+			result.put("success", false);
+			result.put("message", "数据库操作异常");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/setRecmmend",produces={"application/json;charset=utf-8"})
+	public @ResponseBody Map<String,Object> setRecmmend(String ids,boolean isRecommend){
+		Map<String,Object> result = new HashMap<String,Object>();
+		try{
+			String[] idsArray = ids.split(",");
+			List<Long> idList = new ArrayList<Long>();
+			for(String id:idsArray){
+				idList.add(Long.valueOf(id));
+			}
+			recommandBusiness.setRecommandEdit(idList, isRecommend);
+			result.put("success", true);
+		}catch(Exception ex){
+			loger.error(ex);
+			result.put("success", false);
+			result.put("message", "数据库操作异常");
 		}
 		return result;
 	}

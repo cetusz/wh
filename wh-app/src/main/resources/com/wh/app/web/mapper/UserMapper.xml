@@ -22,7 +22,7 @@
 			 INSERT INTO t_user(
 				userName,  passWord,  createTime,  lastUpdateTime
 			 )VALUES(
-			 	#{userName},  #{passWord},  #{createTime},  #{lastUpdateTime}
+			 	#{userName},  #{passWord}, now(),  now()
 			 )
 		 ]]>
 	</insert>

@@ -25,11 +25,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <body align="center">
-  <div style="width:800px;height:300px;margin:0 auto;border:#ccc solid 1px;text-align:center;valign:middle">
-    
+  <body align="center" style="margin:0 auto">
+    <div style="width:800px;height:300px;margin:0 auto;border:#ccc solid 1px;text-align:center;valign:middle">
+         <p>登錄超時！</p>
+         <br> <a href="<%=path%>/system/tologin"/>返回登录页</a>
     </div>  
-      <br> <a href="system!toLogin.do"/>返回登录页</a>
+    
   
   </div>
   </body>

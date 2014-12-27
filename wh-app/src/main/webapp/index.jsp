@@ -15,67 +15,104 @@
 	<script type="text/javascript" src='<%=path%>/resources/js/outlook.js'> </script>
 	 <script type="text/javascript">
     var _menus = {
-	basic : [ {
-		"menuid" : "10",
-		"icon" : "icon-sys",
-		"menuname" : "公众账号管理",
-		"menus" : [ {
-			"menuid" : "101",
-			"menuname" : "账号列表",
-			"icon" : "icon-nav",
-			"url" : "<%=path%>/admin/publicaccountedit/tolist"
-		}]
-	} ],
-	content : [{
-		"menuid" : "20",
-		"icon" : "icon-sys",
-		"menuname" : "内容管理",
-		"menus" : [ {
-			"menuid" : "201",
-			"menuname" : "内容列表",
-			"icon" : "icon-nav",
-			"url" : "<%=path%>/admin/eassay/tolist"
-		}
-]}],
+    		basic : [ {
+    			"menuid" : "10",
+    			"icon" : "icon-sys",
+    			"menuname" : "公众账号管理",
+    			"menus" : [ {
+    				"menuid" : "101",
+    				"menuname" : "账号列表",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/publicaccountedit/tolist"
+    			}]
+    		} ],
+    		content : [{
+    			"menuid" : "20",
+    			"icon" : "icon-sys",
+    			"menuname" : "内容管理",
+    			"menus" : [ {
+    				"menuid" : "201",
+    				"menuname" : "内容列表",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/eassay/tolist"
+    			}]
+    		
+    		}],
 
-category : [{
-	"menuid" : "20",
-	"icon" : "icon-sys",
-	"menuname" : "分类管理",
-	"menus" : [ {
-		"menuid" : "201",
-		"menuname" : "分类列表",
-		"icon" : "icon-nav",
-		"url" : "<%=path%>/admin/category/tolist"
-	}
-]}],
- config : [{
-	"menuid" : "30",
-	"icon" : "icon-sys",
-	"menuname" : "配置管理",
-	"menus" : [ {
-		"menuid" : "301",
-		"menuname" : "配置列表",
-		"icon" : "icon-nav",
-		"url" : "<%=path%>/manage/user_tolist.do"
-	}]
+    	category : [{
+    		"menuid" : "20",
+    		"icon" : "icon-sys",
+    		"menuname" : "分类管理",
+    		"menus" : [{
+    			"menuid" : "201",
+    			"menuname" : "分类列表",
+    			"icon" : "icon-nav",
+    			"url" : "<%=path%>/admin/category/tolist"
+    		}]
+    	}],/*
+    	 config : [{
+    		"menuid" : "30",
+    		"icon" : "icon-sys",
+    		"menuname" : "配置管理",
+    		"menus" : [ {
+    			"menuid" : "301",
+    			"menuname" : "配置列表",
+    			"icon" : "icon-nav",
+    			"url" : "<%=path%>/manage/user_tolist.do"
+    		}]
 
-}]
-    ,
-	user : [{
-		"menuid" : "40",
-		"icon" : "icon-sys",
-		"menuname" : "用户管理",
-		"menus" : [ {
-			"menuid" : "401",
-			"menuname" : "用户列表",
-			"icon" : "icon-nav",
-			"url" : "<%=path%>/manage/user_tolist"
-		}]
+    	}]
+    	    ,*/
+    		user : [{
+    			"menuid" : "40",
+    			"icon" : "icon-sys",
+    			"menuname" : "用户管理",
+    			"menus" : [ {
+    				"menuid" : "401",
+    				"menuname" : "用户列表",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/member/tolist"
+    			}]
 
-	}]
-    
-};
+    		}],
+    	recommand: [{
+    			"menuid" : "40",
+    			"icon" : "icon-sys",
+    			"menuname" : "推荐管理",
+    			"menus" : [{
+    				"menuid" : "401",
+    				"menuname" : "推荐设置",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/recommand/config"
+    			}, {
+    				"menuid" : "402",
+    				"menuname" : "推荐列表",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/recommand/tolist"
+    			}]
+
+    		}],
+
+    	search: [{
+    			"menuid" : "40",
+    			"icon" : "icon-sys",
+    			"menuname" : "搜索",
+    			"menus" : [ {
+    				"menuid" : "401",
+    				"menuname" : "搜索界面",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/search/search"
+    			},
+    			{
+    				"menuid" : "402",
+    				"menuname" : "管理界面",
+    				"icon" : "icon-nav",
+    				"url" : "<%=path%>/admin/search/index"
+    			}]
+
+    		}],
+
+    	};
 
 </script>
 <Style>
@@ -104,9 +141,12 @@ category : [{
 				<li ><a class="active" name="basic" href="javascript:;">公众账号</a></li>
 				<li ><a name="content" href="javascript:;">文章</a></li>
 				<li ><a name="category" href="javascript:;">分类</a></li>
+				<!--  
 				<li ><a name="config" href="javascript:;">配置</a></li>
+				-->
 				<li><a name="user" href="javascript:;">用户</a></li>
 				<li><a name="recommand" href="javascript:;">推荐</a></li>
+				<li><a name="search" href="javascript:;">搜索</a></li>
 		</ul>
     </div>
     <div region="south" split="true" >
@@ -132,7 +172,7 @@ category : [{
 	    			<td><input class="easyui-validatebox" type="text" id="newPassword" name="newPassword" data-options="required:true"></input></td>
 	    		</tr>
 	    	</table>
-	    	<input type="hidden" name="userId" id="userId" value="<s:property value="#session.user.userId"/>"/>
+	    	<input type="hidden" name="userId" id="userId" value='<s:property value="#session.user.userId"/>'/>
 	    </form>
 	     <div style="text-align:center;padding:5px">
 	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">修改</a>

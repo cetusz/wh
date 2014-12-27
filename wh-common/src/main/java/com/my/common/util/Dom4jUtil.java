@@ -1,10 +1,10 @@
 package com.my.common.util;
 
-import  java.io.FileInputStream;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import  java.io.InputStream;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -13,15 +13,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.dom4j.Attribute;
-import  org.dom4j.Document;
-import  org.dom4j.DocumentException;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.QName;
-import  org.dom4j.io.DOMReader;
-import  org.dom4j.io.DOMWriter;
+import org.dom4j.io.DOMReader;
+import org.dom4j.io.DOMWriter;
 import org.dom4j.io.OutputFormat;
-import  org.dom4j.io.SAXReader;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

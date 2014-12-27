@@ -16,6 +16,7 @@
     <script type="text/javascript" src="<%=path %>/resources/js/ajaxfileupload.js"></script>
     <script type="text/javascript" src="<%=path %>/resources/js/ajaxloading.js"></script>
     <script type="text/javascript" src="<%=path %>/resources/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="<%=path %>/resources/easyui/extends/easyui-extends-dateformatter.js"></script>
 	<title>公众账号列表</title>
 </head>
 <body>
@@ -39,6 +40,13 @@
 						id="chineseName" name="chineseName" > 
 				公众账号ID:<input class="easyui-text" style="width: 150px"
 						id="accountId" name="accountId" > 
+				分类:<select id="categoryId" name="categoryId" style="width:80px" class="easyui-combobox" 
+						data-options=" url:'<%=path%>/admin/category/getlist',
+									valueField: 'id',
+									textField: 'cateName',
+									method:'get'">
+							<option value="">请选择</option>
+					</select>		
 				<a href="#" class="easyui-linkbutton" iconCls="icon-search"
 					onclick="doSearch()">查询</a>
 			</div>
@@ -76,6 +84,25 @@
 						</div>
 					</div>
 	</div>
+	
+	
+
+	<div id="eassay_window" class="easyui-window" style="width:800px;height:370px;"  data-options="modal:true,closed:true"  title="文章列表">
+			       	<table id="eassay_list_data" style="width:800px;height:370px;"  title="文章列表"  fit="true" data-options="toolbar:'#etb'">
+		            </table>
+					<div id="etb" style="padding:5px;height:auto">
+					    <div>
+							文章名称:<input class="easyui-text" style="width: 150px"
+									id="title" name="title" > 
+							<a href="#" class="easyui-linkbutton" iconCls="icon-search"
+								onclick="doEassaySearch()">查询</a>
+								<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delEassay()">删除</a>
+					          <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="javascript:$('#eassay_window').window('close');">关闭</a>
+								
+						</div>
+					</div>
+	</div>
+	
 </body>
 <script>
   $(function(){
@@ -104,7 +131,12 @@
 						   	 	 return "<img src='"+value+"' width=50"+" onerror='javascript:this.src=''' height=50/>";
 			                  }
 			                  return value;
-					}}
+					}},
+					{field:'operator',title:'操作',align:'center',width:100,
+						formatter:function(value,row,index){
+							return '<a href="#">查看下属文章</a>';
+						}
+					}
 			 	]],
 			 	url:'<%=path %>/admin/publicaccountedit/list',
 			 	pageList: [20,50,500]
@@ -113,10 +145,52 @@
 			//绑定用户点击事件
 			$('#list_data').datagrid({
 				    onClickCell: function(index,field,value){
-					    	  showDetail(index,field,value);
+				    	      if(field=='chineseName'){
+					    	  	showDetail(index,field,value);
+				    	      }else if(field=='operator'){
+				    	    	  showEassay(index);
+				    	      }
 					 }
 			});
   });
+  
+  function doEassaySearch(){
+	  var title = $("#title").val();
+	  $("#eassay_list_data").datagrid('load',{title:title});
+  }
+  
+  function showEassay(index){
+	      var data = $('#list_data').datagrid('getData');
+		  var selectRec = data.rows[index];
+		  var accountId = selectRec.id;
+	      $("#eassay_window").window('open');
+	       var options = {
+	            columns:[[
+						{field:'id',hidden:true},
+						{field:'title',title:'标题'},
+						{field:'categoryName',title:'分类名称',align:'center',width:100},
+					    {field:'accountName',title:'所属公众账户',align:'center'},
+						{field:'pubDate',title:'发布日期',align:'center',width:80,formatter:function(value,row,index){
+							return formatDatebox(value);
+						}},
+						{field:'contentUrl',title:'詳情',align:'center',width:100,formatter:function(value,row,index){
+							return '<a href=#>查看詳情</a>';
+						}
+						}
+			 	]],
+			 	url:'<%=path%>/admin/eassay/list?accountId='+accountId,
+			 	pageList: [20,50,500]
+			}; 
+			$("#eassay_list_data").mygrid(options);
+			$('#eassay_list_data').datagrid({
+			    onClickCell: function(index,field,value){
+			    	      if(field=='contentUrl'){
+				    	  	  window.open(value);
+			    	      }
+				 }
+		});
+  }
+ 
   
   function showDetail(index,field,value){
 		var data = $('#list_data').datagrid('getData');
@@ -138,7 +212,28 @@
       }
   }
   
-  
+  function delEassay(){
+	  var rows = $("#eassay_list_data").datagrid('getSelections');
+	  if(rows.length==0){
+		  $.messager.alert('提示','请选择记录','info');
+		  return;
+	  }
+	  var idArray = [];
+	  for(var i=0,len=rows.length;i<len;i++){
+		  idArray.push(rows[i].id);
+	  }
+
+	  $.post("<%=path%>/admin/eassay/del",{ids:idArray.join(',')},function(data){
+		  if(data.success){
+			  $.messager.alert('提示','删除成功!','info');
+		  }else{
+			  $.messager.alert('提示','删除失败!','info');
+		  }
+		  $("#eassay_list_data").datagrid('load');
+
+	  });
+
+  }
   
   function del(){
 		 //删除时先获取选择行
@@ -175,9 +270,11 @@
   function doSearch(){
 	        var chineseName = $("#chineseName").val();
 		    var accountId = $("#accountId").val();
+		    var cateIds = $("#categoryId").combobox('getValue');
 		   	var query = {
 	   			'accountId':accountId,
-	   			'chineseName':chineseName
+	   			'chineseName':chineseName,
+	   			 'cateIds':cateIds
 		   	};
 		   
 		   $('#list_data').datagrid('load',query);
@@ -245,21 +342,33 @@
 	
 	
 	function closeupload(){
+	//	$("#myfiles").val('');
 		$('#uploadfileDiv').window('close');
 	}
 	
 	function save_set_type(){
 	      var rows = $("#list_data").datagrid("getSelections");
 	      var typeId = $("#category_list_data").datagrid("getSelections")[0].id;
-	      var accountIds = '';
+	      var typeName = $("#category_list_data").datagrid("getSelections")[0].cateName;
+	      var accountIds = [];
 	      //选择要设置分类的行
 	      if (rows.length > 0) {
 	          $.messager.confirm("提示", "你确定要设置吗?", function (r) {
-	        	  accountIds += rows.id;
+	        	  for(var i=0,len=rows.length;i<len;i++){
+	        		  accountIds.push(rows[i].id);
+	        	  }
+	        	  $.post("<%=path%>/admin/publicaccountedit/settype",{accountIds:accountIds.toString(),typeId:typeId,typeName:typeName},function(data){
+		        	  if(data.success){
+		        	 	 $.messager.alert("info",'设置成功!',"提示");
+		        	 	$("#set_type_window").window("close");
+		        	 	$("#list_data").datagrid('load');
+		        	  }else{
+		        		  $.messager.alert("info",data.message,"提示"); 
+		        	  }
+		          });
 	          });
-	          $.post("<%=path%>/admin/publicaccountedit/settype",{accountIds:accountIds,typeId:typeId},function(data){
-	        	  $.messager.alert("提示",'设置成功!',"info");
-	          });
+	      }else{
+	    	  $.messager.alert("error",'请选择记录设置!',"错误");
 	      }
 		
 	}

@@ -12,6 +12,8 @@ public class EassayEdit extends EassayBase{
 	//是否推荐
 	private boolean isRecommanded;
 	
+	private String pubDateStr;
+	
 	public String getOpenId() {
 		return openId;
 	}
@@ -20,7 +22,7 @@ public class EassayEdit extends EassayBase{
 		this.openId = openId;
 	}
 
-	public boolean isRecommanded() {
+	public boolean getIsRecommanded() {
 		return isRecommanded;
 	}
 
@@ -28,6 +30,15 @@ public class EassayEdit extends EassayBase{
 		this.isRecommanded = isRecommanded;
 	}
 
+	public String getPubDateStr() {
+		return pubDateStr;
+	}
+
+	public void setPubDateStr(String pubDateStr) {
+		this.pubDateStr = pubDateStr;
+	}
+
+	
 	
 	
 	

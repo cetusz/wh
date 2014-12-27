@@ -60,12 +60,13 @@
 					<td class="alignright">所属分类:</td>	
 					<td> 
 					<select id="cateIds" name="cateIds" style="width:200px" class="easyui-combobox" 
-						data-options=" url:'<%=path%>/broadcast/province/list',
-									valueField: 'areaCode',
-									textField: 'title',
+						data-options=" url:'<%=path%>/admin/category/getlist',
+									valueField: 'id',
+									textField: 'cateName',
 									method:'get'">
 							<option value="">请选择</option>
 					</select>	
+					<input type="hidden" name="cateNames" id="cateNames"/>
 				    </td>
 			    </tr>
 			  	<tr>
@@ -105,6 +106,13 @@
 						id="bizId" name="bizId"></textarea>
 				    </td>
 			    </tr>
+			       <tr>
+					<td class="alignright">上次爬取時間:</td>	
+					<td> 
+					    <input class="easyui-validatebox"  style="width:500px" type="text" 
+						id="lastCrawlerDate" name="lastCrawlerDate"></textarea>
+				    </td>
+			    </tr>
 			    </c:if>
 			    <tr>
 			    <td colspan=2>  <div id="buttonDiv" style="margin:10px;text-align:center">
@@ -119,11 +127,16 @@
 </body>
 <script>
 	$(function(){
+		var id = '${id}';
 		$('#accountForm').form({
 		    url:"<%=path%>/admin/publicaccountedit/save",
 		    onSubmit: function(){
-		    	var isValid = $(this).form('validate');
-				return isValid;
+		    	if(id){
+		    		$("#cateNames").val($("#cateIds").combobox('getText'));
+		    		var isValid = $(this).form('validate');
+					return isValid;
+		    	}
+		    	return true;
 		    },
 		    success:function(data){
 				data = $.parseJSON(data);
@@ -143,7 +156,7 @@
 		    onLoadSuccess:function(data){
 				//var countryValues = $("#countryArray").combobox('getValues');
 				//var showTypeStr = data.showType;
-				//$("#showType").combobox('select',showTypeStr);
+				//$("#cateIds").combobox('select',showTypeStr);
 			}
 		});
 		 

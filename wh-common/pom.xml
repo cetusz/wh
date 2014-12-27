@@ -4,11 +4,11 @@
    <parent>
     <groupId>com.wh.app</groupId>
     <artifactId>wh</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <groupId>com.wh.app</groupId>
   <artifactId>wh-common</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>wh-common</name>
@@ -91,7 +91,7 @@
   </dependencies>
  
   <build>
-    	<finalName>my-mybatis-support</finalName>
+    	<finalName>wh-common</finalName>
 		<plugins>
 		    <!--  要将源码放上去，需要加入这个插件   -->
             <plugin>  

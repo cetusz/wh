@@ -44,8 +44,6 @@ import com.my.mybatis.support.Page;
  * 目前只支持把page放到HashMap中(或使用接口时，把page作为方法的参数),并且key为"page"
  * </p>
  * 
- * @author 904032
- * @date 2014-2-14
  */
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class }) })
 @SuppressWarnings("rawtypes")

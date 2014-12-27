@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.app.web.mapper.edit.RecommendEditMapper">
+	
+   <resultMap type="RecommandEdit" id="resultMap">
+	    <result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="intro" column="intro"/>
+		<result property="contentUrl" column="contentUrl"/>
+		<result property="categoryId" column="categoryId"/>
+		<result property="categoryName" column="categoryName"/>
+		<result property="accountId" column="accountId"/>
+		<result property="accountName" column="accountName"/>
+		<result property="pubDate" column="pubDate"/>
+		<result property="createTime" column="createTime"/>
+		<result property="lastUpdateTime" column="lastUpdateTime"/>
+		<result property="status" column="status"/>
+    </resultMap>
+
+		
+	<sql id="select_columns">
+	t.id,  t.title,  t.content, t.status, t.intro,  t.contentUrl,  t.categoryId,  t.categoryName,  t.accountId,  t.accountName,  t.createTime,  t.lastUpdateTime
+    </sql>
+	
+	<insert id="save" parameterType="RecommandEdit" 
+		useGeneratedKeys="true" keyProperty="id">
+		 <![CDATA[
+			 INSERT INTO t_recommend_edit(
+				 title,  content,  intro,  contentUrl,  categoryId,  categoryName,  accountId,  accountName,  createTime,  lastUpdateTime,status
+			 )VALUES(
+			 	  #{title},  #{content},  #{intro},  #{contentUrl},  #{categoryId},  #{categoryName},  #{accountId},  #{accountName},  now(),  now(),#{status}
+			 )
+		 ]]>
+	</insert>
+	
+    <update id="update" parameterType="RecommandEdit" flushCache="true">
+        UPDATE t_recommend_edit t
+        <set>
+			<if test="id!= null and id!= ''" >t.id=#{id},</if>
+			<if test="title!= null and title!= ''" >t.title=#{title},</if>
+			<if test="content!= null and content!= ''" >t.content=#{content},</if>
+			<if test="intro!= null and intro!= ''" >t.intro=#{intro},</if>
+			<if test="contentUrl!= null and contentUrl!= ''" >t.contentUrl=#{contentUrl},</if>
+			<if test="categoryId!= null and categoryId!= ''" >t.categoryId=#{categoryId},</if>
+			<if test="categoryName!= null and categoryName!= ''" >t.categoryName=#{categoryName},</if>
+			<if test="accountId!= null and accountId!= ''" >t.accountId=#{accountId},</if>
+			<if test="accountName!= null and accountName!= ''" >t.accountName=#{accountName},</if>
+			<if test="createTime!= null and createTime!= ''" >t.createTime=#{createTime},</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" >t.lastUpdateTime=#{lastUpdateTime},</if>
+			<if test="status!= null and status!= ''" >t.status=#{status},</if>
+		</set> 
+		WHERE id = #{id}
+ 	</update>
+	
+	<!-- 主键删除 -->
+	<delete id="deleteOne" flushCache="true" parameterType="Long">
+		DELETE FROM t_recommend_edit WHERE id = #{id}
+	</delete>
+
+	
+	
+	<!-- 多行删除 -->
+     <delete id="deleteMulti"  parameterType="List">
+   		delete from t_recommend_edit
+   		<where>
+			<if test="list != null and list != ''">
+				 id in 
+				<foreach collection="list" item="key" open=" ( " close=" ) " separator=",">
+					#{key}
+				</foreach>
+			</if>
+		</where>
+   </delete>
+   
+
+	<!-- 对象查询 -->
+	<select id="findOne" resultMap="resultMap" parameterType="Long">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_recommend_edit t
+		WHERE t.id = #{id}
+	</select>
+
+	<!-- list分页查询 -->
+	<select id="selectList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_recommend_edit t
+		<include refid="select_where_sql"/>
+	</select>
+
+	<!-- 查询字段  -->
+	<sql id="select_where_sql">
+		<where>
+			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
+			<if test="title!= null and title!= ''" > AND t.title=#{title}</if>
+			<if test="content!= null and content!= ''" > AND t.content=#{content}</if>
+			<if test="intro!= null and intro!= ''" > AND t.intro=#{intro}</if>
+			<if test="contentUrl!= null and contentUrl!= ''" > AND t.contentUrl=#{contentUrl}</if>
+			<if test="categoryId!= null and categoryId!= ''" > AND t.categoryId=#{categoryId}</if>
+			<if test="categoryName!= null and categoryName!= ''" > AND t.categoryName=#{categoryName}</if>
+			<if test="accountId!= null and accountId!= ''" > AND t.accountId=#{accountId}</if>
+			<if test="accountName!= null and accountName!= ''" > AND t.accountName=#{accountName}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+			<if test="status!= null and status!= ''" > AND t.status=#{status}</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询 -->	
+	<select id="getPageList" resultMap="resultMap" parameterType="java.util.Map">
+		SELECT 
+		<include refid="select_columns"/>
+		FROM t_recommend_edit t
+		<include refid="page_where_sql"/>
+	</select>
+  
+  	<!-- 查询字段  -->
+	<sql id="page_where_sql">
+		<where>
+			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
+			<if test="title!= null and title!= ''" > AND t.title=#{title}</if>
+			<if test="content!= null and content!= ''" > AND t.content=#{content}</if>
+			<if test="intro!= null and intro!= ''" > AND t.intro=#{intro}</if>
+			<if test="contentUrl!= null and contentUrl!= ''" > AND t.contentUrl=#{contentUrl}</if>
+			<if test="categoryId!= null and categoryId!= ''" > AND t.categoryId=#{categoryId}</if>
+			<if test="categoryName!= null and categoryName!= ''" > AND t.categoryName=#{categoryName}</if>
+			<if test="accountId!= null and accountId!= ''" > AND t.accountId=#{accountId}</if>
+			<if test="accountName!= null and accountName!= ''" > AND t.accountName=#{accountName}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+			<if test="status!= null and status!= ''" > AND t.status=#{status}</if>
+		</where>
+	</sql>
+
+</mapper>

@@ -25,7 +25,9 @@ public class PropertiesFileUtil {
 		fileName = fileName.replace("appConfigHome:", appConfigHome+File.separator);
 		fileName = fileName.replace("userpath:", System.getProperty("user.dir")+File.separator);
 		fileName = fileName.replace("classpath:", PropertiesFileUtil.class.getClassLoader().getResource("").getPath());
-		
+		if(fileName.indexOf("/")==-1){
+			fileName = appConfigHome+"/"+fileName;
+		}
 		//System.out.println(" capVideoConfigDir is : " + configPath);
 		InputStream is = null;
 		Properties prop = new Properties();

@@ -15,7 +15,7 @@ import com.wh.app.web.model.query.UserQuery;
 import com.wh.app.web.service.pub.UserService;
 
 @Service
-//@Transactional
+@Transactional
 public class UserServiceImpl implements UserService{
 
 	@Autowired

@@ -16,7 +16,6 @@ import com.my.mybatis.support.Sort;
  * 
  * @cms-mybatis-support
  * @BaseMapperInterface.java
- * @author 904032
  * @2014年3月5日-下午5:24:39
  */
 @SuppressWarnings("rawtypes")

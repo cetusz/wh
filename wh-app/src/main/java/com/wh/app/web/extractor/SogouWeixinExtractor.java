@@ -19,7 +19,12 @@ import org.dom4j.Element;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.StatefulJob;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.my.common.util.Dom4jUtil;
@@ -33,7 +38,7 @@ import com.wh.app.web.service.edit.EassayEditService;
 import com.wh.app.web.service.edit.PublicAccountEditService;
 
 @Component("eassayExtractor")
-public class SogouWeixinExtractor {
+public class SogouWeixinExtractor{// implements StatefulJob{
 	Logger logger = Logger.getLogger(SogouWeixinExtractor.class);
 	@Autowired EassayEditService eassayEditService;
 	@Autowired PublicAccountEditService accountEditService;
@@ -69,6 +74,8 @@ public class SogouWeixinExtractor {
 				            if(account!=null){
 								logger.info("extreact "+account.getChineseName());
 								extractEassay(account);
+							}else{
+								logger.info("extract "+ account.getChineseName()+" failure");
 							}
 						}
 					} catch (InterruptedException e) {
@@ -78,6 +85,7 @@ public class SogouWeixinExtractor {
 				}
 				
 			});
+			isRunning = false;
 			//for(PublicAccountEdit account:accounts){
 			//	extractEassay(account);
 			//}
@@ -103,7 +111,10 @@ public class SogouWeixinExtractor {
 				break;
 			}
 			String page =  String.format(pageUrl, openId,pageindex,System.currentTimeMillis());
-			String content = HttpUtils.getInstance().doGet(page, "utf-8",null);
+			String content = HttpUtils.getInstance().doGetWithReconnect(page, "utf-8");
+			if(StringUtils.isEmpty(content)){
+				continue;
+			}
 			String json = content.substring(content.indexOf("(")+1,content.lastIndexOf(")"));
 			try {
 				JSONObject obj = new JSONObject(json);
@@ -172,7 +183,6 @@ public class SogouWeixinExtractor {
 		account.setLastCrawlerDate(toDayCrawlerDate);
 		accountEditService.saveOrUpdate(account);
 		logger.info(account.getChineseName()+" finished");
-		isRunning = false;
 	}
 	
 	private void setEassayType(EassayEdit edit,PublicAccountEdit account){
@@ -208,6 +218,60 @@ public class SogouWeixinExtractor {
 		String parttern = "yyyy-MM-dd HH:mm:ss";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(parttern);
 		return simpleDateFormat.parse(dateValue);
+	}
+
+	//@Override
+	public void execute(JobExecutionContext jctx) throws JobExecutionException {
+		final JobDataMap dataMap =  jctx.getJobDetail().getJobDataMap(); 
+		boolean isRunning = dataMap.getBoolean("isRunning");
+		
+		if(!isRunning){
+			dataMap.put("isRunning", true);
+			ApplicationContext ctx = (ApplicationContext)dataMap.get("applicationContext");
+			accountEditService = (PublicAccountEditService)ctx.getBean("publicAccountEditService");
+			eassayEditService = (EassayEditService)ctx.getBean("eassayEditService");
+			categoryEditService = (CategoryEditService)ctx.getBean("categoryEditService");
+			initCategories();
+			//数量不多时可以全取
+			List<PublicAccountEdit> accounts = accountEditService.selectList(null, null);
+			List<PublicAccountEdit> list = Collections.synchronizedList(accounts);
+			final BlockingQueue<PublicAccountEdit> quene = new ArrayBlockingQueue<PublicAccountEdit>(150);
+			for(PublicAccountEdit account:accounts){
+				try {
+					quene.put(account);
+				} catch (InterruptedException e) {
+					logger.error("put failure",e);
+				}
+			}
+			dataMap.put("quene", quene);
+			ExecutorService  executor =Executors.newCachedThreadPool();
+			executor.execute(new Runnable(){
+				@Override
+				public void run() {
+					PublicAccountEdit account = null;
+					try {
+						while(quene.size()>0){
+				            account = quene.take();
+				            if(account!=null){
+								logger.info("extreact "+account.getChineseName());
+								extractEassay(account);
+							}else{
+								logger.info("extract "+ account.getChineseName()+" failure");
+							}
+						 }
+					} catch (InterruptedException e) {
+						logger.error("take failure",e);
+					}
+					
+				}
+			});
+			while(quene.size()==0){
+		         	dataMap.put("isRunning", false);
+		    }
+		}else{
+			logger.info("extract running");
+		}
+		
 	}
 
 }

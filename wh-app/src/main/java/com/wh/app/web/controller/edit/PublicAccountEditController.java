@@ -123,25 +123,26 @@ public class PublicAccountEditController {
                  System.out.println("文件长度: " + myfile.getSize());
                  System.out.println("文件类型: " + contentType);
                  System.out.println("========================================");
-                 if(contentType.indexOf("sheet")>-1||contentType.indexOf("ms-excel")>-1){
+                 if(contentType.indexOf("sheet")>-1||contentType.indexOf("ms-excel")>-1||contentType.indexOf("kset")>-1){
                 	 try {
                 		 File file = new File(PropertiesFileUtil.getStringValue("config.properties","file-temp-location"),"accountExcel");
                          FileUtils.copyInputStreamToFile(myfile.getInputStream(), file);
                          XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
-                		 int sheetIndex = wb.getNumberOfSheets()>1?1:0;
-                		 XSSFSheet sheet = wb.getSheetAt(sheetIndex);   
+                		 XSSFSheet sheet = wb.getSheetAt(0);   
                          int totalRows = sheet.getLastRowNum();   
                          for (int i = 1; i <= totalRows; i++) {
                         	   XSSFRow row = sheet.getRow(i);
                                String accountName = row.getCell(0).toString();
                                String category = row.getCell(1).toString().trim();
                                PublicAccountEdit saveAccount = accountExtractor.extractAccount(accountName);
-                               saveAccount.setCateIds(cateMap.get(category)==null?"":cateMap.get(category).toString());
-                               saveAccount.setCateNames(category);
-                               PublicAccountEditQuery query = new PublicAccountEditQuery();
-                               query.setAccountId(saveAccount.getAccountId());
-                               if(publicAccountEditService.selectList(query, null).size()==0){
-                            	   publicAccountEditService.saveOrUpdate(saveAccount);
+                               if(saveAccount!=null){
+	                               saveAccount.setCateIds(cateMap.get(category)==null?"":cateMap.get(category).toString());
+	                               saveAccount.setCateNames(category);
+	                               PublicAccountEditQuery query = new PublicAccountEditQuery();
+	                               query.setAccountId(saveAccount.getAccountId());
+	                               if(publicAccountEditService.selectList(query, null).size()==0){
+	                            	   publicAccountEditService.saveOrUpdate(saveAccount);
+	                               }
                                }
                          }
 					} catch (Exception e) {
@@ -163,7 +164,7 @@ public class PublicAccountEditController {
 	}
 	
 	@RequestMapping(value="settype",produces={"application/json;chartset=utf-8"})
-	public @ResponseBody Map<String,Object> setType(String accountIds,String typeId){
+	public @ResponseBody Map<String,Object> setType(String accountIds,String typeId,String typeName){
 		Map<String,Object> result = new HashMap<String,Object>();
 		try{
 			String[] idsArray = accountIds.split(",");
@@ -171,7 +172,7 @@ public class PublicAccountEditController {
 			for(String id:idsArray){
 				ids.add(Long.valueOf(id));
 			}
-			publicAccountEditService.setTypeMutil(ids, typeId);
+			publicAccountEditService.setTypeMutil(ids, typeId,typeName);
 			result.put("success", true);
 		}catch(Exception ex){
 			result.put("success", false);

@@ -34,7 +34,7 @@
 			 INSERT INTO t_public_account_edit(
 				accountId,  chineseName, headImg ,funcintro,  wxcredit,  sinacredit,  isCrawler,  qrCodeUrl,  cateIds,  bizId,  isShielded,  createTime,  lastUpdateTime,  version,lastCrawlerDate,cateNames
 			 )VALUES(
-			 	#{accountId},  #{chineseName}, #{headImg},  #{funcintro},  #{wxcredit},  #{sinacredit},  #{isCrawler},  #{qrCodeUrl},  #{cateIds},  #{bizId},  #{isShielded},  #{createTime},  #{lastUpdateTime},  #{version},#{lastCrawlerDate},#{cateNames}
+			 	#{accountId},  #{chineseName}, #{headImg},  #{funcintro},  #{wxcredit},  #{sinacredit},  #{isCrawler},  #{qrCodeUrl},  #{cateIds},  #{bizId},  #{isShielded},  now(),  now(),  #{version},#{lastCrawlerDate},#{cateNames}
 			 )
 		 ]]>
 	</insert>
@@ -84,7 +84,7 @@
    
    
    <update id="setTypeMutil" parameterType="Map" >
-     update t_public_account_edit set cateIds = #{typeId} 
+     update t_public_account_edit set cateIds = #{typeId} ,cateNames = #{typeName}
 	      <where>
 				<if test="ids != null and ids != ''">
 					 id in 
@@ -127,7 +127,7 @@
 			<if test="cateNames!= null and cateNames!= ''" > AND t.cateNames=#{cateNames}</if>
 			<if test="bizId!= null and bizId!= ''" > AND t.bizId=#{bizId}</if>
 			<if test="isShielded!= null and isShielded!= ''" > AND t.isShielded=#{isShielded}</if>
-			<if test="createTime!= null and createTime!= ''" > AND t.createTime=#{createTime}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime>=#{createTime}</if>
 			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
 			<if test="version!= null and version!= ''" > AND t.version=#{version}</if>
 		</where>

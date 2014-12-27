@@ -18,15 +18,29 @@
 
 	<!-- 环境相关的配置文件配置. -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<!-- 生产环境需要在servlet容器启动时配置变量appConfigHome. -->
-        <property name="location" value="file:${appConfigHome}/datasource.properties" />
+		<!-- 生产环境需要在servlet容器启动时配置变量appConfigHome.
+        <property name="location" value="file:${appConfigHome}/datasource.properties" /> -->
         <property name="ignoreResourceNotFound" value="true" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <!-- 本地环境下使用此值 -->
         <property name="properties" ref="mysqlJdbcProperties" />
+        <property name="locations">
+            <list>
+              <value>file:${appConfigHome}/datasource.properties</value>
+              <value>file:${appConfigHome}/config.properties</value>
+            </list>
+        </property>
     </bean>
     <bean name="mysqlJdbcProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <!-- 
         <property name="location" value="classpath:conf/datasource.properties" />
+         -->
+         <property name="locations">
+            <list>
+              <value>classpath:conf/datasource.properties</value>
+              <value>classpath:conf/config.properties</value>
+            </list>
+        </property>
     </bean>
     
  	<!-- datasource配置 -->

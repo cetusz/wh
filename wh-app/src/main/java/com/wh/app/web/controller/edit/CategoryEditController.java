@@ -39,7 +39,9 @@ public class CategoryEditController {
 		try{
 			CategoryEditQuery query = new CategoryEditQuery();
 			query.setCateName(edit.getCateName());
-			List<CategoryEdit> list = categoryEditService.selectList(query, null);
+			Sort sort = new Sort();
+			sort.setTableSort("createTime", true);
+			List<CategoryEdit> list = categoryEditService.selectList(query, sort);
 			if(list.size()==0){
 				categoryEditService.saveOrUpdate(edit);
 				result.put("success", true);
@@ -111,6 +113,13 @@ public class CategoryEditController {
 	    }
 	    return result;
 	}
+	
+	@RequestMapping(value="getlist",produces={"application/json;charset=utf-8"})
+	public @ResponseBody List<CategoryEdit> getlist(){
+		List<CategoryEdit> list = categoryEditService.selectList(null, null);
+		return list;
+	}
+	
 
 	
 

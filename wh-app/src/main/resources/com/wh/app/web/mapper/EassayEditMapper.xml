@@ -4,7 +4,7 @@
 <mapper namespace="com.wh.app.web.mapper.edit.EassayEditMapper">
 	
    <resultMap type="EassayEdit" id="resultMap">
-		 <result property="id" column="id"/>
+		<result property="id" column="id"/>
 		<result property="sourceId" column="sourceId"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
@@ -38,7 +38,7 @@
     </sql>
 	
 	<sql id="select_page_columns">
-		t.id,  t.title,t.pubDate, t.intro,  t.contentUrl,  t.categoryId,  t.categoryName,  t.accountId,  t.accountName
+		t.id,  t.title,t.pubDate, t.contentUrl, t.categoryId,t.intro,t.categoryName,  t.accountId,  t.accountName,t.isRecommanded
     </sql>
     
     
@@ -48,7 +48,7 @@
 			 INSERT INTO t_eassay_edit(
 				sourceId,  title,  content,  intro,  contentUrl,  categoryId,  categoryName,  accountId,  accountName,  openId,  isRecommanded,  createTime,  lastUpdateTime,pubDate
 			 )VALUES(
-			    #{sourceId},  #{title},  #{content},  #{intro},  #{contentUrl},  #{categoryId},  #{categoryName},  #{accountId},  #{accountName},  #{openId},  #{isRecommanded},  #{createTime},  #{lastUpdateTime},#{pubDate}
+			    #{sourceId},  #{title},  #{content},  #{intro},  #{contentUrl},  #{categoryId},  #{categoryName},  #{accountId},  #{accountName},  #{openId},  #{isRecommanded},  now(),  now(),#{pubDate}
 			 )
 		 ]]>
 	</insert>
@@ -115,7 +115,7 @@
 		<where>
 			<if test="id!= null and id!= ''" > AND t.id=#{id}</if>
 			<if test="sourceId!= null and sourceId!= ''" > AND t.sourceId=#{sourceId}</if>
-			<if test="title!= null and title!= ''" > AND t.title=#{title}</if>
+			<if test="title!= null and title!= ''" > AND title LIKE CONCAT('%',#{title},'%')</if>
 			<if test="content!= null and content!= ''" > AND t.content=#{content}</if>
 			<if test="intro!= null and intro!= ''" > AND t.intro=#{intro}</if>
 			<if test="contentUrl!= null and contentUrl!= ''" > AND t.contentUrl=#{contentUrl}</if>
@@ -127,6 +127,15 @@
 			<if test="isRecommanded!= null and isRecommanded!= ''" > AND t.isRecommanded=#{isRecommanded}</if>
 			<if test="pubDate!= null and pubDate!= ''" > AND t.pubDate=#{pubDate}</if>
 			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+			<if test="createTime!= null and createTime!= ''" > AND t.createTime>=#{createTime}</if>
+			<if test="dateAfter!= null and dateAfter!= ''" > AND t.pubDate>=#{dateAfter}</if>
+			<if test="lastId!= null and lastId!= ''" > AND t.id>#{lastId}</if>
+		    <if test="ids != null and ids !=''">
+		      AND t.id in
+		      <foreach collection="ids" item="id" open="(" close=")" separator=",">
+		            #{id}
+		      </foreach>
+		    </if>
 		</where>
 	</sql>
 	
@@ -146,19 +155,46 @@
 		<where>
 		    <if test="id!= null and id!= ''" > AND t.id=#{id}</if>
 			<if test="sourceId!= null and sourceId!= ''" > AND t.sourceId=#{sourceId}</if>
-			<if test="title!= null and title!= ''" > AND t.title=#{title}</if>
+			<if test="title!= null and title!= ''" > AND title LIKE CONCAT('%',#{title},'%')</if>
 			<if test="content!= null and content!= ''" > AND t.content=#{content}</if>
 			<if test="intro!= null and intro!= ''" > AND t.intro=#{intro}</if>
 			<if test="contentUrl!= null and contentUrl!= ''" > AND t.contentUrl=#{contentUrl}</if>
 			<if test="categoryId!= null and categoryId!= ''" > AND t.categoryId=#{categoryId}</if>
 			<if test="categoryName!= null and categoryName!= ''" > AND t.categoryName=#{categoryName}</if>
 			<if test="accountId!= null and accountId!= ''" > AND t.accountId=#{accountId}</if>
-			<if test="accountName!= null and accountName!= ''" > AND t.accountName=#{accountName}</if>
+			<if test="accountName!= null and accountName!= ''" > AND t.accountName LIKE CONCAT('%',#{accountName},'%')</if>
 			<if test="openId!= null and openId!= ''" > AND t.openId=#{openId}</if>
 			<if test="isRecommanded!= null and isRecommanded!= ''" > AND t.isRecommanded=#{isRecommanded}</if>
 			<if test="pubDate!= null and pubDate!= ''" > AND t.pubDate=#{pubDate}</if>
 			<if test="lastUpdateTime!= null and lastUpdateTime!= ''" > AND t.lastUpdateTime=#{lastUpdateTime}</if>
+			<if test="dateAfter!= null and dateAfter!= ''" > AND t.pubDate>=#{dateAfter}</if>
+			<if test="lastId!= null and lastId!= ''" > AND t.id>${lastId}</if>
 		</where>
 	</sql>
 
+
+   <update id="setTypeMutil" parameterType="Map" >
+     update t_eassay_edit set categoryId = #{typeId} ,categoryName = #{typeName}
+	      <where>
+				<if test="ids != null and ids != ''">
+					 id in 
+					<foreach collection="ids" item="key" open=" ( " close=" ) " separator=",">
+						#{key}
+					</foreach>
+				</if>
+			</where>
+   </update>
+   
+    <update id="setRecommend" parameterType="Map">
+     update t_eassay_edit set isRecommanded = #{isRecmmend}
+	      <where>
+				<if test="ids != null and ids != ''">
+					 id in 
+					<foreach collection="ids" item="key" open=" ( " close=" ) " separator=",">
+						#{key}
+					</foreach>
+				</if>
+			</where>
+   </update>
+   
 </mapper>

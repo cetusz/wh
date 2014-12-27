@@ -1,6 +1,5 @@
 package com.wh.app.web.controller.pub;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ public class LoginController {
 		return mv;
 	}
 	
-
 	@RequestMapping(value="finduser",method=RequestMethod.POST,produces ={"application/json;charset=UTF-8"})
 	public @ResponseBody Map<String,Object> finduser(String userName,String password){
 		UserEntity entity = userService.login(userName, password);
@@ -44,14 +42,12 @@ public class LoginController {
 			
 	}
 	
-
 	@RequestMapping("/tologin")
 	public ModelAndView tologin(){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("login");
 		return mv;
 	}
-
 
 	
 	@RequestMapping("/logout")
@@ -61,5 +57,4 @@ public class LoginController {
 		mv.setViewName("login");
 		return mv;
 	}
-
 }

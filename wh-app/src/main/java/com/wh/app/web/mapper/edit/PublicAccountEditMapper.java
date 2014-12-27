@@ -7,5 +7,5 @@ import com.wh.app.web.model.edit.PublicAccountEdit;
 
 public interface PublicAccountEditMapper extends BaseMapperInterface<PublicAccountEdit> {
 
-	public void setAccountType(List<Long> ids,String typeId);
+	public void setAccountType(List<Long> ids,String typeId,String typeName);
 }
