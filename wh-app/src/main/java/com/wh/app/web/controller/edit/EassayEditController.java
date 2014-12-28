@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.my.mybatis.support.Page;
 import com.my.mybatis.support.Sort;
+import com.wh.app.web.aop.MonitorFun;
 import com.wh.app.web.extractor.SogouWeixinExtractor;
 import com.wh.app.web.model.edit.EassayEdit;
 import com.wh.app.web.model.query.EassayEditQuery;
@@ -43,6 +44,7 @@ public class EassayEditController {
 		return mv;
 	}
 	
+	@MonitorFun("essay_edit")
 	@RequestMapping(value="list",produces ={"application/json;charset=UTF-8"})
 	public @ResponseBody Map<String,Object> list(EassayEditQuery query,@RequestParam("page")int page,@RequestParam("rows")int rows){
 		 Map<String,Object> resultMap = new HashMap<String,Object>();

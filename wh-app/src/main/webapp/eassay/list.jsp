@@ -87,20 +87,29 @@
 					}
 			 	]],
 			 	url:'<%=path%>/admin/eassay/list',
-			 	pageList: [20,50,500]
+			 	pageList: [20,50,500],
+			    onClickCell: function(index,field,value){
+				      if(field == "contentUrl"){
+				    	  //showDetail(index,field,value);
+				    	  window.open(value);
+				      }else if(field == "edit"){
+				    	  showDetail(index,field,value);
+				      }
+				 }
+		
 			}; 
 			$('#list_data').mygrid(options);	
 			//绑定用户点击事件
-			$('#list_data').datagrid({
-				    onClickCell: function(index,field,value){
-					      if(field == "contentUrl"){
-					    	  //showDetail(index,field,value);
-					    	  window.open(value);
-					      }else if(field == "edit"){
-					    	  showDetail(index,field,value);
-					      }
-					 }
-			});
+// 			$('#list_data').datagrid({
+// 				    onClickCell: function(index,field,value){
+// 					      if(field == "contentUrl"){
+// 					    	  //showDetail(index,field,value);
+// 					    	  window.open(value);
+// 					      }else if(field == "edit"){
+// 					    	  showDetail(index,field,value);
+// 					      }
+// 					 }
+// 			});
   });
   
   function del(){

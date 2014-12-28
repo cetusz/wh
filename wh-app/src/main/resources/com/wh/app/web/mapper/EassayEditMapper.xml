@@ -38,7 +38,7 @@
     </sql>
 	
 	<sql id="select_page_columns">
-		t.id,  t.title,t.pubDate, t.contentUrl, t.categoryId,t.intro,t.categoryName,  t.accountId,  t.accountName,t.isRecommanded
+		t.id,  t.title,t.pubDate, t.contentUrl, t.categoryId,t.categoryName,  t.accountId,  t.accountName,t.isRecommanded
     </sql>
     
     

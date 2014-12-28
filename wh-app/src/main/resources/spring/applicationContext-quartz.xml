@@ -36,8 +36,9 @@
 		<property name="autoStartup" value="true" />
 		<property name="triggers">
 			<list>
+			<!-- 
 			  <ref local="EASSAYExtractorSERVICETrigger"/>
-		 <!--
+		 
 			    <ref local="simpleTrigger"/>	--> 
 			</list>
 		</property>
