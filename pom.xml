@@ -23,7 +23,7 @@
 	<xstream-version>1.4.5</xstream-version>
 	<dom4j-version>1.6.1</dom4j-version>
 	<jaxen-version>1.1.4</jaxen-version>
-    <mysql-connector-java-version>5.1.26</mysql-connector-java-version>
+        <mysql-connector-java-version>5.1.26</mysql-connector-java-version>
 	<mybatis-spring-version>1.1.1</mybatis-spring-version>
 	<mybatis-version>3.1.1</mybatis-version>
 	<wh-common>1.0</wh-common>
